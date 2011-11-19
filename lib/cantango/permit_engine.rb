@@ -1,12 +1,14 @@
+require 'cantango'
+
 module CanTango
   class PermitEngine < Engine
     autoload_modules :PermitFactory,  :PermitFinder, :PermitBuilder
     autoload_modules :PermitExecutor, :AbstractPermitExecutor, :SystemPermitExecutor
     autoload_modules :Loaders, :Util, :RoleMatcher, :Compatibility
 
-    include CanTango::Ability::Executor
-    include CanTango::Ability::RoleHelpers
-    include CanTango::Ability::UserHelpers
+    include CanTango::AbilityExecutor
+    include CanTango::Ability::Helpers::Role
+    include CanTango::Ability::Helpers::User
 
     def initialize ability
       super
@@ -21,7 +23,7 @@ module CanTango
     end
 
     def executor type, permits
-      CanTango::Permits::Executor.new self, type, permits
+      CanTango::AbilityExecutor::PermitType.new self, type, permits
     end
 
     def engine_name
@@ -62,14 +64,18 @@ module CanTango
     end
 
     def permit_factory
-      @permit_factory ||= CanTango::PermitEngine::PermitFactory.new self
+      @permit_factory ||= CanTango::Permit::Factory.new self
     end
 
     def key_method_names
       permits.keys.map do |permit|
-        permit_class = CanTango.config.permits.available_permits[permit]
+        permit_class = available_permits_for permit
         permit_class.hash_key if permit_class && permit_class.respond_to?(:hash_key)
       end.compact
+    end
+    
+    def available_permits_for type
+      CanTango.config.permits.available_permits[type]
     end
   end
 end
