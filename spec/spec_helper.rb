@@ -1,0 +1,8 @@
+require 'rspec'
+# require 'cancan/matchers'
+require 'cantango'
+# require 'cantango/rspec'
+# require 'mocha'
+require 'fixtures/models'
+require 'cutter'
+require 'cantango/permits'

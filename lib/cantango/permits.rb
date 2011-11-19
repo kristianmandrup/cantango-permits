@@ -1,11 +1,39 @@
 module CanTango
-  module Permits
-    autoload_modules :License
-    autoload_modules :RoleGroupPermit,      :RoleGroupPermitBuilder
-    autoload_modules :RolePermit,           :RolePermitBuilder
-    autoload_modules :UserTypePermit,       :UserTypePermitBuilder
-    autoload_modules :AccountTypePermit,    :AccountTypePermitBuilder
-  end
+  autoload_modules :Builder, :Factory, :Finder, :License, :Permit
+  autoload_modules :Engine, :Executor, :Macros
 end
 
-require 'cantango/permits/aliases'
+# module CanTango
+#   module Macros
+#     autoload_modules :Permits
+#   end
+# end
+# 
+# module CanTango
+#   module Engine
+#     autoload_modules :Permits
+#   end
+# end
+
+# module CanTango
+#   module Factory
+#     autoload_modules :Permit
+#   end
+# end
+
+# 
+# #--- Permit
+# 
+# 
+# 
+# module CanTango
+#   module Executor
+#     autoload_modules :Base, :Permit, :SpecialPermit
+#   end
+# end
+# 
+# module CanTango
+#   module Builder
+#     autoload_modules :Permit, :RoleGroupPermit, :RolePermit, :UserTypePermit, :AccountTypePermit
+#   end
+# end
