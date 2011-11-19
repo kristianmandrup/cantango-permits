@@ -1,6 +1,6 @@
 module CanTango
-  class PermitEngine < Engine
-    class PermitFactory
+  class Permit
+    class Factory
       include CanTango::Helpers::Debug
 
       attr_accessor :ability

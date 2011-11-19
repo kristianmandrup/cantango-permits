@@ -1,6 +1,6 @@
 module CanTango
-  class PermitEngine < Engine
-    class AbstractPermitExecutor
+  class PermitExecutor
+    class Base
       include CanTango::Helpers::Debug
 
       attr_accessor :permit

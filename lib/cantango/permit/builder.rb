@@ -1,6 +1,6 @@
 module CanTango
-  class PermitEngine < Engine
-    class PermitBuilder
+  class Permit
+    class Builder
       class CreatePermitError < StandardError; end
 
       include CanTango::Helpers::Debug

@@ -1,6 +1,6 @@
 module CanTango
-  class PermitEngine < Engine
-    class SystemPermitExecutor < AbstractPermitExecutor
+  class PermitExecutor
+    class System < Abstract
       # always execute system permit
       def execute!
         permit?

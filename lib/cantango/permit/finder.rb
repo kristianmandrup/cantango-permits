@@ -1,6 +1,6 @@
 module CanTango
-  class PermitEngine < Engine
-    class PermitFinder
+  class Permit
+    class Finder
       include CanTango::Helpers::Debug
 
       # This class is used to find the right permit, possible scoped for a specific user account

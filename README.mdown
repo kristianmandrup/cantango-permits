@@ -39,6 +39,14 @@ Run bundler in a terminal/console from the folder of your Gemfile (root folder o
 
 `$ bundle`
 
+## Usage
+
+```ruby
+require 'cantango/permits'
+require 'cantango/permit_engine'
+```
+
+
 ## Update Nov 19, 2011
 
 Initial extraction of permits related functionality. Needs refactoring and testing!
