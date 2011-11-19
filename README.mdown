@@ -1,0 +1,45 @@
+# CanTango Permits
+
+[CanTango](https://github.com/kristianmandrup/cantango) is an advanced Access Control (permissions) system for Rails 3. It:
+
+* extends [CanCan](http://github.com/ryanb/cancan) and offers a more role oriented design
+* integrates with _role_ and _authentication_ systems in a non-intrusive manner
+* can _cache_ ability rules between requests for increased performance
+* can _store_ abilites in a permission store, including a YAML file, for easy administration
+* works well with multiple user accounts and sub applications
+* supports multiple [Devise](https://github.com/plataformatec/devise) users
+
+*CanTango Permits* includes:
+
+* a basic set of useful permits
+* a permit engine to execute the permits
+
+## Basic set of permits
+
+The set of permits are for: roles, role groups, users and accounts.
+You can easily customize or create your own types of Permits to suit your needs!
+
+## Permit engine
+
+The permit engine iterates over all the registered types of permits and executes all registered permits of each type. The result is a set of Ability rules that work with the [CanCan](http://github.com/ryanb/cancan) Ability mechanism. 
+
+## Install 'permits' gem
+
+### In current environment (or gemset)
+
+`gem install permits`
+
+### In application
+
+Insert into Gemfile
+
+`gem 'permits'`
+
+Run bundler in a terminal/console from the folder of your Gemfile (root folder of app)
+
+`$ bundle`
+
+## Update Nov 19, 2011
+
+Initial extraction of permits related functionality. Needs refactoring and testing!
+Not currently working. Any help appreciated ;)
