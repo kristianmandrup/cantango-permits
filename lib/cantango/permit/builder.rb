@@ -47,7 +47,7 @@ module CanTango
       end
 
       def finder name
-        CanTango::PermitEngine::PermitFinder.new name, permit_type, account_name
+        CanTango::Permit::Finder.new name, permit_type, account_name
       end
 
       # TODO: FIX!
@@ -61,15 +61,6 @@ module CanTango
           ability.send(name)
         end
       end
-=begin
-      def available_role_groups
-        CanTango.config.role_groups
-      end
-
-      def available_roles
-        CanTango.config.roles
-      end
-=end
     end
   end
 end

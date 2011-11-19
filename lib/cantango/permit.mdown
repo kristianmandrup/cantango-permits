@@ -1,0 +1,4 @@
+# Permit
+
+The Permit folder contains functionality that work to find and build a Permit to be executed by the
+Permit engine.
