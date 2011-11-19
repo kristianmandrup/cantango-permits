@@ -12,8 +12,7 @@ class AdminsRoleGroupPermit < CanTango::RoleGroupPermit
   end
 end
 
-describe CanTango::PermitEngine::Factory do
-  
+describe CanTango::Permit::Factory do
   before do
     CanTango.config.cache_engine.set :off
   end
@@ -31,19 +30,17 @@ describe CanTango::PermitEngine::Factory do
     CanTango::Ability.new user_account
   end
 
-  let (:factory) do
-    CanTango::PermitEngine::Factory.new ability
-  end
+  subject { CanTango::Permit::Factory.new ability }
 
   describe 'attributes' do
     it "should have an ability" do
-      factory.ability.should be_a(CanTango::Ability)
+      subject.ability.should be_a(CanTango::Ability)
     end
   end
 
   describe '#build!' do
     it 'should build a list of permits' do
-      factory.build!.should_not be_empty
+      subject.build!.should_not be_empty
     end
   end
 end
