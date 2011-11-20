@@ -4,7 +4,7 @@ require 'fixtures/models'
 class SystemRolePermit < CanTango::RolePermit
 end
 
-describe CanTango::Permits::SpecialPermit::Builder do
+describe CanTango::Builder::Permit::Special do
 
   before do
     CanTango.config.cache_engine.set :off

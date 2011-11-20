@@ -1,6 +1,6 @@
 module CanTango
-  module Builder
-    class RoleGroupPermit < Permit
+  module Builder::Permit
+    class RoleGroup < Base
       include CanTango::Helpers::Debug
       # builds a list of Permits for each role group of the current ability user (or account)
       # @return [Array<RoleGroupPermit::Base>] the role group permits built for this ability

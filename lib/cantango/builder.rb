@@ -1,5 +1,5 @@
 module CanTango
   module Builder
-    autoload_modules :Permit, :RoleGroupPermit, :RolePermit, :UserTypePermit, :AccountTypePermit
+    autoload_modules :Permit
   end
 end

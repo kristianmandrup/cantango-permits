@@ -1,6 +1,6 @@
 module CanTango
-  module Builder
-    class UserTypePermit < Permit
+  module Builder::Permit
+    class UserType < Base
       # class NoAvailableRoles < StandardError; end
 
       # builds a list of Permits for each role of the current ability user (or account)

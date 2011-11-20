@@ -1,7 +1,7 @@
 require 'spec_helper'
 require 'fixtures/models'
 
-class AdminPermit < CanTango::UserPermit
+class AdminPermit < CanTango::Permit::UserType
   def initialize ability
     super
   end
@@ -14,7 +14,7 @@ class AdminPermit < CanTango::UserPermit
 end
 
 
-describe CanTango::Permits::UserPermit do
+describe CanTango::Permit::UserType do
   let (:user) do
     User.new 'kris'
   end

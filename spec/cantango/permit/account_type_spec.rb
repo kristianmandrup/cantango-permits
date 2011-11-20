@@ -1,7 +1,7 @@
 require 'spec_helper'
 require 'fixtures/models'
 
-class AdminRolePermit < CanTango::RolePermit
+class AdminAccountPermit < CanTango::Permit::AccountType
   def initialize ability
     super
   end
@@ -9,17 +9,17 @@ class AdminRolePermit < CanTango::RolePermit
   protected
 
   def static_rules
+    can :read, Article
   end
 end
 
-
-describe CanTango::Permits::RolePermit do
+describe CanTango::Permit::AccountType do
   let (:user) do
     User.new 'kris'
   end
 
   let (:user_account) do
-    ua = UserAccount.new user, :roles => [:admin]
+    ua = UserAccount.new user, :roles => [:editor]
     user.account = ua
   end
 
@@ -28,12 +28,12 @@ describe CanTango::Permits::RolePermit do
   end
 
   let (:permit) do
-    AdminRolePermit.new ability
+    AdminAccountPermit.new ability
   end
 
   describe 'attributes' do
-    it "should be the permit for the :admin role" do
-      permit.role.should == :admin
+    it "should be the permit for the :admin account" do
+      permit.account_type.should == :admin
     end
 
     it "should have an ability" do
@@ -41,3 +41,5 @@ describe CanTango::Permits::RolePermit do
     end
   end
 end
+
+

@@ -1,6 +1,6 @@
 module CanTango
-  module Builder
-    class RolePermit < Permit
+  module Builder::Permit
+    class Role < Base
       include CanTango::Helpers::Debug
 
       # builds a list of Permits for each role of the current ability user (or account)
