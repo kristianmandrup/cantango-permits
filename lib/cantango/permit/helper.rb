@@ -2,10 +2,10 @@ module CanTango
   module Permit
     module Helper
       def self.modules
-        [:Execution, :License, :Naming]
+        [:Execution, :License, :Naming, :RoleMatcher]
       end
       
-      autoload_modules modules
+      autoload_modules *modules
     end
   end
 end

@@ -1,9 +1,10 @@
 require 'spec_helper'
+require 'cantango/configuration/permit_registry_ex'
 
 class Menu
 end
 
-class WaiterRolePermit < CanTango::RolePermit
+class WaiterRolePermit < CanTango::Permit::Role
   def initialize ability
     super
   end
@@ -16,7 +17,7 @@ class WaiterRolePermit < CanTango::RolePermit
   end
 end
 
-class ChefRolePermit < CanTango::RolePermit
+class ChefRolePermit < CanTango::Permit::Role
   def initialize ability
     super
   end
@@ -34,27 +35,9 @@ class Context
 end
 
 describe CanTango::Configuration::Permits do
-  before do
-    @permit_registry = CanTango::Configuration::Permits.instance
-  end
+  subject { CanTango::Configuration::Permits.instance }
 
-  it "should respond to permits groups methods" do
-    [:user, :account, :role, :role_group].each do |permit_group|
-      @permit_registry.should respond_to(permit_group)
-    end
-  end
-
-  it "should treat missing methods as account keys" do
-    @permit_registry.any_method.should be_kind_of(CanTango::Configuration::PermitRegistry)
-  end
-
-  context "account keys" do
-    it "should behave like PermitRegistry" do
-      [:user, :account, :role, :role_group].each do |permit_group|
-        @permit_registry.admin_account.should respond_to(permit_group) 
-      end
-    end
-  end
+  it_should_behave_like CanTango::Configuration::PermitRegistry
 
   describe 'debugging permits' do
     let(:context) { Context.new }

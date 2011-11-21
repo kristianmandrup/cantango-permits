@@ -1,12 +1,8 @@
 module CanTango
-  class Permit
+  module Permit
     module ClassMethods
       def inherited(subclass)
-        register permit_name(subclass), subclass
-      end
-
-      def permit_name clazz
-        self.name.demodulize.gsub(/(.*)(#{clazz.to_s.camelize}Permit)/, '\1').underscore.to_sym
+        register subclass
       end
 
       def type
@@ -22,7 +18,7 @@ module CanTango
       end
 
       def finder
-        @finder ||= CanTango::PermitEngine::Finder.new permit_name(self), account_name(self)
+        @finder ||= CanTango::Finder::Permit.new permit_name(self), account_name(self)
       end
 
       def build_permit ability, name
@@ -30,13 +26,15 @@ module CanTango
       end
 
       def builder ability, finder
-        @builder ||= CanTango::PermitEngine::Builder.new ability, finder
+        @builder ||= CanTango::Builder::Permit.new ability, finder
       end
 
       protected
 
-      def register permit, subclass
-        available_permits[permit] = subclass
+      include CanTango::Permit::Helper::Naming
+
+      def register subclass
+        available_permits[permit_name(subclass)] = subclass
       end
 
       def available_permits

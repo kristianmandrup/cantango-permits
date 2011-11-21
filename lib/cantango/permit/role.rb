@@ -1,14 +1,6 @@
 module CanTango
-  module Permits
-    class RolePermit < CanTango::Permit
-
-      autoload_modules :Builder
-
-      module ClassMethods
-        def inherited(base_clazz)
-          CanTango.config.permits.register_permit_class base_clazz
-        end
-      end
+  module Permit
+    class Role < Base
       extend ClassMethods
 
       # creates the permit

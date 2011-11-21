@@ -1,15 +1,6 @@
 module CanTango
   module Permit
     class RoleGroup < Base
-      module ClassMethods
-        def inherited(base_clazz)
-          CanTango.config.permits.register_permit_class base_clazz
-        end
-
-        def permit_name clazz
-          clazz.name.demodulize.gsub(/(.*)(RoleGroupPermit)/, '\1').underscore.to_sym
-        end
-      end
       extend ClassMethods
 
       def name

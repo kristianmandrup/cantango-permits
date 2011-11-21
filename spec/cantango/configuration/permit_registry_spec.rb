@@ -1,13 +1,8 @@
 require 'spec_helper'
+require 'cantango/configuration/permit_registry_ex'
 
-describe CanTango::Configuration::PermitRegistry do
-  before do
-    @permit_registry = CanTango::Configuration::PermitRegistry.new
-  end
+describe 'CanTango::Configuration::PermitRegistry' do
+  subject { CanTango::Configuration::Permits.instance }
 
-  it "should respond to permits groups methods" do
-    [:user, :account, :role, :role_group].each do |permit_group|
-      @permit_registry.should respond_to(permit_group)
-    end
-  end
+  it_should_behave_like CanTango::Configuration::PermitRegistry
 end

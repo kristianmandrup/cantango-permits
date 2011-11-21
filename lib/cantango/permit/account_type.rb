@@ -10,8 +10,17 @@ module CanTango
           :account
         end
 
+        # convention, remove last 
         def permit_name clazz
-          clazz.name.demodulize.gsub(/(.*)(AccountPermit)/, '\1').underscore.to_sym
+          namespaces = clazz.name.split('::')
+          case namespaces.last
+          when 'Permit'
+            namespaces[0..-2].last.underscore.to_sym
+          when /.+Permit$/
+            namespaces.last.sub(/Permit$/, '').underscore.to_sym
+          else
+            raise "No permit name could be implied from #{clazz.name}"
+          end
         end
         alias_method :account_type_name, :permit_name
       end

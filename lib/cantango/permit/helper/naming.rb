@@ -1,8 +1,10 @@
 module CanTango::Permit
   module Helper
     module Naming
-      def permit_type_name clazz
-        clazz.name.demodulize.sub(/Permit$/, '').underscore.to_sym
+      def permit_name clazz
+        namespaces = clazz.name.split('::')
+        name = (namespaces[-2] == 'Permit') ? namespaces.last : namespaces.last.sub(/Permit$/, '')
+        name.underscore.to_sym
       end
 
       def account_name clazz

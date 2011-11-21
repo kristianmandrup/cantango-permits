@@ -26,12 +26,6 @@ module CanTango
 
       def default_permits
         {}
-      #   { :user       => CanTango::Permits::UserTypePermit,
-      #     :account    => CanTango::Permits::AccountTypePermit,
-      #     :role       => CanTango::Permits::RolePermit,
-      #     :role_group => CanTango::Permits::RoleGroupPermit,
-      #     :special    => nil
-      #   }
       end
 
       def disable_types *types
@@ -87,7 +81,7 @@ module CanTango
         debug "Registering #{permit_type} permit: #{permit_name} of class #{permit_clazz}"
 
         registry.get(permit_type)[permit_name] = permit_clazz
-        debug registry.get(permit_type).inspect
+        # debug registry.get(permit_type).inspect
       end
 
       def allowed candidate, actions, subjects, *extra_args
