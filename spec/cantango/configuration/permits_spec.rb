@@ -47,7 +47,7 @@ describe CanTango::Configuration::Permits do
 
     before do
       CanTango.config.debug.set :on
-      context.user_ability(user).can? :read, Menu
+      # context.user_ability(user).can? :read, Menu
     end
 
     describe 'should tell which permits allowe :read' do

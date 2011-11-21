@@ -116,16 +116,16 @@ module CanTango
 
       protected
 
-      def hash_key_for subject
-        key_for(subject).value
+      def hash_key_for ability
+        key_for(ability).value
       end
 
-      def key_for subject
-        subject.respond_to?(:subject) ? key_maker.create_for(subject) : key_maker.new(subject)
+      def key_for ability
+        ability.respond_to?(:subject) ? key_maker.create_for(ability) : key_maker.new(ability)
       end
 
       def key_maker
-        CanTango::Ability::Cache::Key
+        CanTango::Ability::CacheKey
       end
     end
   end
