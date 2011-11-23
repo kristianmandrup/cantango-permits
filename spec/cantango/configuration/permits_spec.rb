@@ -39,6 +39,17 @@ describe CanTango::Configuration::Permits do
 
   it_should_behave_like CanTango::Configuration::PermitRegistry
 
+  describe 'clear_permits_executed!' do
+    specify { CanTango.config.permits.executed.should be_empty }
+    
+    before do
+      CanTango.config.permits.executed[:x] = 1
+      subject.clear_permits_executed!
+    end
+    
+    specify { CanTango.config.permits.executed.should be_empty }
+  end
+
   describe 'debugging permits' do
     let(:context) { Context.new }
     let (:user) do
