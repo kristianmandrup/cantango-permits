@@ -17,19 +17,7 @@ module CanTango
       dynamic_rules
     end
 
-    def permit_rules
-    end
-
-    def static_rules
-    end
-
-    def dynamic_rules
-    end
-
-    protected
-
-    def permits_loader
-      CanTango::YamlPermitStore::Loader
+    def execute
     end
   end
 end

@@ -13,7 +13,7 @@ module CanTango
       end
 
       def build!
-        debug "PermitFactory: No permits could be built" if permits.empty?
+        debug "Factory::Permits: No permits could be built" if permits.empty?
         permits
       end
 

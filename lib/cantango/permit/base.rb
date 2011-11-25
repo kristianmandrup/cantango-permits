@@ -6,7 +6,7 @@ module CanTango
       include CanTango::Helpers::Debug
 
       # FIX !?
-      include CanTango::Rules # also makes a Permit a subclass of CanCan::Ability
+      include CanTango::Api::Rules # also makes a Permit a subclass of CanCan::Ability
       include CanTango::Api::Attributes
 
       Helper.modules.each do |name|

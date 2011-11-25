@@ -1,7 +1,7 @@
 module CanTango
   module Executor
     module Permit
-      autoload_modules :Base, :Special
+      autoload_modules :Abstract, :Base, :Special
     end
   end
 end

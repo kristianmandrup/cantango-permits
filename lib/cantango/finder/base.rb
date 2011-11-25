@@ -26,7 +26,7 @@ module CanTango
       end
       
       def permit_class
-        "#{name.to_s.camelize}Permit"
+        "Permit::#{name.to_s.camelize}"
       end
     end
   end

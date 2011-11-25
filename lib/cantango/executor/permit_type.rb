@@ -20,7 +20,7 @@ module CanTango
         @cache ||= CanTango::Ability::Cache.new self, :cache_key => cache_key, :key_method_names => key_method_names
       end
 
-      def permit_rules
+      def execute!
         # TODO: somehow type specific caching of result of permits!
         permits.each do |permit|
           CanTango.config.permits.was_executed(permit, ability) if CanTango.debug?

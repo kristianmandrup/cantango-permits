@@ -1,5 +1,5 @@
 module CanTango
   module Finder
-    autoload_modules :Base, :Permit, :AccountPermit
+    autoload_modules :Base, :Permit
   end
 end

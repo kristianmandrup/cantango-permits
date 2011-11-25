@@ -1,5 +1,5 @@
 module CanTango
   module Macros
-    autoload_modules :Permits
+    autoload_modules :Permit
   end
 end
