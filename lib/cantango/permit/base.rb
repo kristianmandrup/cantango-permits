@@ -80,8 +80,6 @@ module CanTango
 
       protected
 
-      include CanTango::Permit::Helper::RoleMatcher
-
       def config_disabled?
         (CanTango.config.permits.disabled[permit_type] || []).include?(permit_name.to_s)
       end
