@@ -7,8 +7,7 @@ module CanTango
       autoload_modules :PermitExecutor, :AbstractPermitExecutor, :SystemPermitExecutor
       autoload_modules :Loaders, :Util, :RoleMatcher, :Compatibility
 
-      include CanTango::AbilityExecutor
-      include CanTango::Ability::Helpers::Role
+      include CanTango::Ability::Executor::Base
       include CanTango::Ability::Helpers::User
 
       def initialize ability
@@ -24,7 +23,7 @@ module CanTango
       end
 
       def executor type, permits
-        CanTango::AbilityExecutor::PermitType.new self, type, permits
+        CanTango::Ability::Executor::PermitType.new self, type, permits
       end
 
       def engine_name
@@ -65,7 +64,7 @@ module CanTango
       end
 
       def permit_factory
-        @permit_factory ||= CanTango::Permit::Factory.new self
+        @permit_factory ||= CanTango::Factory::Permit.new self
       end
 
       def key_method_names

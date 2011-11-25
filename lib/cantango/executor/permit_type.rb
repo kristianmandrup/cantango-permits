@@ -4,7 +4,7 @@
 module CanTango
   module Executor
     class PermitType < Base
-      include CanTango::Ability::Executor
+      include CanTango::Ability::Executor::Base
 
       attr_reader :ability, :permit_type, :permits
 

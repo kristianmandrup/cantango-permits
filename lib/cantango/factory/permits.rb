@@ -42,8 +42,8 @@ module CanTango
       end
 
       def builder_class permit_type
-        return "CanTango::Permits::SpecialPermitBuilder" if permit_type == :special
-        "CanTango::Permits::#{permit_type.to_s.camelize}PermitBuilder"
+        return "CanTango::Builder::Permit::Special" if permit_type == :special
+        "CanTango::Builder::Permit::#{permit_type.to_s.camelize}"
       end
 
       def enabled_permit_types
