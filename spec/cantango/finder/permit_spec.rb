@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-class EditorRolePermit < CanTango::RolePermit
+class EditorRolePermit < CanTango::Permit::Role
 end
 
 describe CanTango::Permit::AccountFinder do

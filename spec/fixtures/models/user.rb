@@ -1,7 +1,7 @@
 require 'fixtures/models/simple_roles'
 
 class User
-  attr_accessor :name, :account, :email
+  attr_accessor :name, :account, :email, :roles, :role_groups
 
   # tango_user # see macros
 

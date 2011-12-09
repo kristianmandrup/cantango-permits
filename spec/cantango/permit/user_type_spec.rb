@@ -15,20 +15,10 @@ end
 
 
 describe CanTango::Permit::UserType do
-  let (:user) do
-    User.new 'kris'
-  end
-
-  let (:ability) do
-    CanTango::Ability.new user
-  end
-
-  let (:permit) do
-    AdminPermit.new ability
-  end
-
   before do
-    CanTango.debug_off!
+    @user = SimpleUser.new
+    @ability = CanTango::Ability::Base.new @user
+    @permit = AdminPermit.new @ability
   end
 
   describe 'attributes' do
@@ -38,7 +28,7 @@ describe CanTango::Permit::UserType do
     end
 
     it "should have an ability" do
-      permit.ability.should be_a(CanTango::Ability)
+      permit.ability.should be_a(CanTango::Ability::Base)
     end
   end
 

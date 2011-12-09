@@ -31,7 +31,7 @@ end
 describe CanTango::PermitEngine do
   context 'no-cache' do
     before do
-      @user = User.new 'kris'
+      @user = User.new 'kris', 'kris@mail.ru', :roles => [:editor]
     end
 
     describe 'Permit engine' do

@@ -7,7 +7,7 @@ require 'cantango'
 require 'fixtures/models'
 require 'cantango/rspec'
 
-class MembershipPermit < CanTango::Permit
+class MembershipPermit < CanTango::Permit::Base
   class Builder
   end
 

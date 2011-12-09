@@ -30,23 +30,18 @@ class AdminRolePermit < CanTango::RolePermit
 end
 
 describe CanTango::Permits::RolePermit do
-  let (:user) do
-    User.new 'kris'
+  before do
+    @user = User.new 'kris', 'kris@mail.ru', :roles => [:editor]
+    @ua = UserAccount.new user, :roles => [:admin, :user], :role_groups => []
+    @user.account = @ua
+
+    @ability = CanTango::Ability::Base.new user_account
+    @permit = AdminRolePermit.new ability
   end
-  let (:user_account) do
-    ua = UserAccount.new user, :roles => [:admin, :user], :role_groups => []
-    user.account = ua
-  end
-  let (:ability) do
-    CanTango::Ability.new user_account
-  end
-  let (:permit) do
-    AdminRolePermit.new ability
-  end
+
   before(:each) do
     CanTango.configure do |config|
-      config.permit_engine.set :on
-      config.permission_engine.set :off
+      config.engine(:permit).set :on
     end
   end
 
@@ -69,5 +64,4 @@ describe CanTango::Permits::RolePermit do
       #ability.can?(:read, Post.new).should == false
     end
   end
-
 end

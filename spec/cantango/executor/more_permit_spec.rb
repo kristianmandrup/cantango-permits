@@ -1,14 +1,14 @@
 require 'spec_helper'
 
 module AdminAccountPermits
-  class AdminRolePermit < CanTango::RolePermit
+  class AdminRolePermit < CanTango::Permit::Role
   end
 end
 
-class MusicianRolePermit < CanTango::RolePermit; end
-class EditorsRoleGroupPermit < CanTango::RoleGroupPermit; end
-class AdminAccountPermit < CanTango::AccountPermit; end
-class AdminPermit < CanTango::UserPermit; end
+class MusicianRolePermit < CanTango::Permit::Role; end
+class EditorsRoleGroupPermit < CanTango::Permit::RoleGroup; end
+class AdminAccountPermit < CanTango::Permit::AccountType; end
+class AdminPermit < CanTango::Permit::UserType; end
 
 describe CanTango::Permits::Permit do
 
@@ -41,6 +41,5 @@ describe CanTango::Permits::Permit do
     it "should register account-namespaced" do
       CanTango.config.permits.admin_account.role[:angry_admin].should == AdminAccountPermits::AngryAdminRolePermit
     end
-
   end
 end

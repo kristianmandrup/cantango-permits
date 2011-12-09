@@ -1,7 +1,7 @@
 require 'spec_helper'
 
 module AdminAccountPermits
-  class PublisherRolePermit < CanTango::RolePermit
+  class PublisherRolePermit < CanTango::Permit::Role
   end
 end
 

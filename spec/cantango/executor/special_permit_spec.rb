@@ -4,14 +4,14 @@ require 'cantango/rspec/matchers'
 require 'fixtures/models'
 require 'cantango/rspec/matchers'
 
-class SystemRolePermit < CanTango::RolePermit
+class SystemRolePermit < CanTango::Permit::Role
   def initialize ability
     super
   end
 
   protected
 
-  def static_rules
+  def calc_rules
     can :read, Article
     can :write, Post
     can :create, Comment
@@ -20,25 +20,15 @@ class SystemRolePermit < CanTango::RolePermit
 end
 
 describe CanTango::PermitEngine::Executor::System do
-  let (:user) do
-    User.new 'kris'
-  end
+  before do
+    @user = User.new 'kris', 'kris@mail.ru', :roles => [:editor]
+    @ua = UserAccount.new user, :roles => [:admin, :user], :role_groups => []
+    @user.account = @ua
 
-  let (:user_account) do
-    ua = UserAccount.new user
-    user.account = ua
-  end
+    @ability = CanTango::Ability::Base.new @user
 
-  let (:ability) do
-    @ability ||= CanTango::Ability.new user_account
-  end
-
-  let (:permit) do
-    SystemRolePermit.new ability
-  end
-
-  let (:executor) do
-    CanTango::PermitEngine::Executor::System.new permit
+    @permit = SystemRolePermit.new @ability
+    @executor = CanTango::PermitEngine::Executor::System.new @permit
   end
 
   before(:each) do

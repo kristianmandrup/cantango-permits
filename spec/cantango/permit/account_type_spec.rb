@@ -14,21 +14,10 @@ class AdminAccountPermit < CanTango::Permit::AccountType
 end
 
 describe CanTango::Permit::AccountType do
-  let (:user) do
-    User.new 'kris'
-  end
-
-  let (:user_account) do
-    ua = UserAccount.new user, :roles => [:editor]
-    user.account = ua
-  end
-
-  let (:ability) do
-    CanTango::Ability.new user_account
-  end
-
-  let (:permit) do
-    AdminAccountPermit.new ability
+  before do
+    @user = SimpleUser.new
+    @ability = CanTango::Ability::Base.new @user
+    @permit = AdminAccountPermit.new @ability
   end
 
   describe 'attributes' do

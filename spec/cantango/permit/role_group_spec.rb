@@ -9,26 +9,15 @@ class AdminsRoleGroupPermit < CanTango::Permit::RoleGroup
 
   protected
 
-  def static_rules
+  def calc_rules
   end
 end
 
 describe CanTango::Permit::RoleGroup do
-  let (:user) do
-    User.new 'kris'
-  end
-
-  let (:user_account) do
-    ua = UserAccount.new user, :role_groups => [:admins]
-    user.account = ua
-  end
-
-  let (:ability) do
-    CanTango::Ability.new user_account
-  end
-
-  let (:permit) do
-    AdminsRoleGroupPermit.new ability
+  before do
+    @user = SimpleUser.new
+    @ability = CanTango::Ability::Base.new @user
+    @permit = AdminsRoleGroupPermit.new @ability
   end
 
   describe 'attributes' do

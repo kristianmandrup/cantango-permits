@@ -15,19 +15,11 @@ end
 describe CanTango::Permit::Factory do
   before do
     CanTango.config.cache_engine.set :off
-  end
-
-  let (:user) do
-    User.new 'kris'
-  end
-
-  let (:user_account) do
-    ua = UserAccount.new user, :role_groups => [:admins]
-    user.account = ua
-  end
-
-  let (:ability) do
-    CanTango::Ability.new user_account
+    
+    @user = User.new 'kris', 'kris@mail.ru', :roles => [:editor]
+    @ua = UserAccount.new user, :roles => [:admin, :user], :role_groups => []
+    @user.account = @ua
+    @ability = CanTango::Ability::Base.new @user
   end
 
   subject { CanTango::Permit::Factory.new ability }

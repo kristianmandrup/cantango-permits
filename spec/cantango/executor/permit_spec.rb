@@ -19,19 +19,19 @@ class User
   include_and_extend SimpleRoles
 end
 
-class AdminRolePermit < CanTango::RolePermit
+class AdminRolePermit < CanTango::Permit::Role
   def initialize ability
     super
   end
 
   protected
 
-  def static_rules
+  def calc_rules
     can :read, Article
   end
 
   module Cached
-    def permit_rules
+    def calc_rules
       can :edit, Article
       can :delete, Article
     end

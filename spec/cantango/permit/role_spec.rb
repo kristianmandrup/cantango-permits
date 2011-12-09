@@ -14,21 +14,10 @@ end
 
 
 describe CanTango::Permit::Role do
-  let (:user) do
-    User.new 'kris'
-  end
-
-  let (:user_account) do
-    ua = UserAccount.new user, :roles => [:admin]
-    user.account = ua
-  end
-
-  let (:ability) do
-    CanTango::Ability.new user_account
-  end
-
-  let (:permit) do
-    AdminRolePermit.new ability
+  before do
+    @user = SimpleUser.new
+    @ability = CanTango::Ability::Base.new @user
+    @permit = AdminRolePermit.new @ability
   end
 
   describe 'attributes' do

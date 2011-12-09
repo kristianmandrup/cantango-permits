@@ -5,13 +5,12 @@ end
 
 describe CanTango::Builder::Permit::Base do
   before do 
-    @user = User.new 'kris'
+    @user = User.new 'kris', 'kris@mail.ru', :roles => [:editor]
+    @ability = CanTango::Ability::Base.new @user
   end
-  
-  let(:ability) { CanTango::Ability.new @user}
 
   subject do
-    CanTango::Builder::Permit::Base.new ability
+    RolePermitBuilder.new ability
   end
   
   its(:permit_type) { should == :role_permit }

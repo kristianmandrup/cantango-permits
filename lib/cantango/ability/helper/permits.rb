@@ -3,7 +3,7 @@ module CanTango
     module Helper
       module Permits
         def permits?
-          config.permits.on?
+          CanTango.config.permits.on?
         end
       end
     end

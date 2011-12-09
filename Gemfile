@@ -1,27 +1,39 @@
 source :rubygems
 
-# jquery-rails is used by the dummy application
-gem "jquery-rails"
-gem "cantango", :path => '/Users/kmandrup/pr/stanislaw/cantango'
-
-group :test, :development do
-  gem 'require_all',  '~> 1.2.0'
-  gem "rspec",        ">= 2.6.0"
-  gem 'cutter'
+group :default do
+  gem 'rails',            '>= 3.1'
+  gem 'sugar-high',       '>= 0.6.1'
+  gem 'sweetloader',      '>= 0.1.6'
+  gem 'hashie',           '>= 1.2.0'
+  
+  gem 'cantango-config',  '>= 0.1.9'
+  gem 'cantango-api',     '>= 0.1.3'
 end
 
 group :development do
+  gem "bundler",  ">= 1.1.rc"
   gem "jeweler",  ">= 1.6.4"
-  gem "bundler",  ">= 1.0.1"
-  gem "rdoc"
+  gem "rcov", ">= 0"
 end
 
+group :test do
+  gem 'require_all', '~> 1.2.0'
 
+  gem 'cantango-roles', :path => '/Users/kmandrup/pr/stanislaw/cantango-roles'
 
-# Declare any dependencies that are still in development here instead of in
-# your gemspec. These might include edge Rails or gems from your path or
-# Git. Remember to move these dependencies to your gemspec before releasing
-# your gem to rubygems.org.
+  gem 'forgery'
+  gem 'sqlite3'
+  # Data
+  gem 'database_cleaner'
+  gem 'factory_girl'
 
-# To use debugger
-# gem 'ruby-debug19', :require => 'ruby-debug'
+  # Specs
+  gem 'spork'
+
+  # Debug and performance tests
+  gem 'cutter'
+end
+
+group :test, :development do
+  gem "rspec",    ">= 2.6.0"
+end
