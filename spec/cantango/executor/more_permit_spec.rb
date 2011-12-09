@@ -10,7 +10,7 @@ class EditorsRoleGroupPermit < CanTango::Permit::RoleGroup; end
 class AdminAccountPermit < CanTango::Permit::AccountType; end
 class AdminPermit < CanTango::Permit::UserType; end
 
-describe CanTango::Permits::Permit do
+describe CanTango::Permit do
 
   it "should register RolePermit-based permits" do
     CanTango.config.permits.admin_account.role[:admin].should == AdminAccountPermits::AdminRolePermit

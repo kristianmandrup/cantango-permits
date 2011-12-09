@@ -13,13 +13,13 @@ describe CanTango::Builder::Permit::AccountType do
     AdminAccountPermitBuilder.new @ability
   end
   
-  its(:permit_type) { should == :user_type }
+  its(:permit_type) { should == :account_type }
 
   describe 'build' do
     its(:build) { should be_a CanTango::Permit::AccountType }
   end
 
   describe 'self.permit_type' do
-    specify { AdminAccountPermitBuilder.permit_type.should == :user_type }
+    specify { AdminAccountPermitBuilder.permit_type.should == :account_type }
   end  
 end

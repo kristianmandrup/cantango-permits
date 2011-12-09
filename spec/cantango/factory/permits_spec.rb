@@ -1,14 +1,14 @@
 require 'spec_helper'
 require 'fixtures/models'
 
-class AdminsRoleGroupPermit < CanTango::RoleGroupPermit
+class AdminsRoleGroupPermit < CanTango::Permit::RoleGroup
   def initialize ability
     super
   end
 
   protected
 
-  def static_rules
+  def calc_rules
   end
 end
 

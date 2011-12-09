@@ -1,9 +1,8 @@
 module CanTango
   class License
-    sweetload :Loader, :Rules
+    sweetload :Rules
 
     include Rules
-    include Loader
 
     attr_reader :permit, :licenses
 

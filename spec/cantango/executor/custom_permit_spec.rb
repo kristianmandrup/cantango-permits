@@ -1,9 +1,7 @@
 # registering a custom permit
 #
-
 require 'rspec'
 require 'cantango'
-# require 'simple_roles'
 require 'fixtures/models'
 require 'cantango/rspec'
 

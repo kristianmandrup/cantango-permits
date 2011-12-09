@@ -11,7 +11,7 @@ class WaiterRolePermit < CanTango::Permit::Role
 
   protected
 
-  def permit_rules
+  def calc_rules
     can :read, Menu
     cannot :write, Menu
   end
@@ -24,7 +24,7 @@ class ChefRolePermit < CanTango::Permit::Role
 
   protected
 
-  def permit_rules
+  def calc_rules
     can :publish, Menu
     can :write, Menu
   end

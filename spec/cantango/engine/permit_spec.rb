@@ -23,7 +23,7 @@ class UserPermit < CanTango::UserPermit
 
   protected
 
-  def static_rules
+  def calc_rules
     can :read, Article
   end
 end

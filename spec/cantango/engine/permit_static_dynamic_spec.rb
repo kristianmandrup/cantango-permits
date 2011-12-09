@@ -1,35 +1,33 @@
 require 'spec_helper'
 require 'fixtures/models'
 
-class UserRolePermit < CanTango::RolePermit
+class UserRolePermit < CanTango::Permit::Role
   def initialize ability
     super
   end
 
   protected
 
-  def dynamic_rules
+  def calc_rules
     can(:read, Post) if $test == true
   end
 end
 
-class AdminRolePermit < CanTango::RolePermit
+class AdminRolePermit < CanTango::Permit::Role
   def initialize ability
     super
   end
 
   protected
 
-  def static_rules
-  end
-  def dynamic_rules
+  def calc_rules
     can(:read, Article) do |article|
       $test == true
     end
   end
 end
 
-describe CanTango::Permits::RolePermit do
+describe CanTango::Permits::Permit::Role do
   before do
     @user = User.new 'kris', 'kris@mail.ru', :roles => [:editor]
     @ua = UserAccount.new user, :roles => [:admin, :user], :role_groups => []

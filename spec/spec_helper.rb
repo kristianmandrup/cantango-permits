@@ -8,7 +8,16 @@ require 'cantango/permits'
 require 'cutter'
 
 # require_all File.join("#{File.dirname(__FILE__)}", "support")
-require_all File.join("#{File.dirname(__FILE__)}", "fixtures")
+
+def fixtures_path
+  File.join("#{File.dirname(__FILE__)}", "fixtures")
+end
+
+def config_path
+  File.join(fixtures_path, 'config')
+end
+
+require_all fixtures_path
 
 RSpec.configure do |config|
   

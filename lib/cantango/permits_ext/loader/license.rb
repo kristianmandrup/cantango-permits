@@ -1,6 +1,6 @@
 module CanTango
-  class License
-    module Loader
+  module Loader
+    class License # < Yaml
       def load_rules name = nil
         return if !licenses || licenses.permissions.empty?
         name ||= self.class.to_s.gsub(/License$/, "").underscore
