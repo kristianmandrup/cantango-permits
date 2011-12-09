@@ -1,5 +1,5 @@
 module CanTango
   module Executor
-    autoload_modules :Permit, :PermitType
+    sweetload :Base, :Permit, :PermitType
   end
 end

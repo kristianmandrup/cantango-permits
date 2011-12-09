@@ -1,14 +1,7 @@
-require 'cantango'
-
 module CanTango
-  module Engine
-    class Permits < Base
-      autoload_modules :PermitFactory,  :PermitFinder, :PermitBuilder
-      autoload_modules :PermitExecutor, :AbstractPermitExecutor, :SystemPermitExecutor
-      autoload_modules :Loaders, :Util, :RoleMatcher, :Compatibility
-
-      include CanTango::Ability::Executor::Base
-      include CanTango::Ability::Helpers::User
+  class Engine
+    class Permits < CanTango::Ability::Executor::Base
+      include CanTango::Ability::Helper::User
 
       def initialize ability
         super

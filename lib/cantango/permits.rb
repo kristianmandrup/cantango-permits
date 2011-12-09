@@ -1,11 +1,13 @@
-require 'cantango/class_methods'
+require 'sugar-high/array'
+require 'sugar-high/blank'
+require 'hashie'
+require 'sweetloader'
+
+SweetLoader.namespaces = {:CanTango => 'cantango'}
+SweetLoader.mode = :require
 
 module CanTango
-  autoload_modules :Builder, :Factory, :Finder, :License, :Permit
-  autoload_modules :Engine, :Executor, :Macros
-  autoload_modules :ClassMethods
+  sweetload :License, :Permit, :Executor
 end
 
-[:user_type, :account_type, :role, :role_group, :special].each do |permit|
-  "CanTango::Permit::#{permit.to_s.camelize}".constantize
-end
+require 'cantango/permits_ext'

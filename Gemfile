@@ -19,7 +19,7 @@ end
 group :test do
   gem 'require_all', '~> 1.2.0'
 
-  gem 'cantango-roles', :path => '/Users/kmandrup/pr/stanislaw/cantango-roles'
+  gem 'cantango-roles' #, :path => '/Users/kmandrup/pr/stanislaw/cantango-roles'
 
   gem 'forgery'
   gem 'sqlite3'

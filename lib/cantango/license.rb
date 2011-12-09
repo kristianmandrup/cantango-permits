@@ -1,6 +1,6 @@
 module CanTango
   class License
-    autoload_modules :Loader, :Rules
+    sweetload :Loader, :Rules
 
     include Rules
     include Loader
