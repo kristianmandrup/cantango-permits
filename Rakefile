@@ -14,8 +14,8 @@ require 'rake'
 require 'jeweler'
 Jeweler::Tasks.new do |gem|
   # gem is a Gem::Specification... see http://docs.rubygems.org/read/chapter/20 for more options
-  gem.name = "permits"
-  gem.homepage = "http://github.com/kristianmandrup/permit_store"
+  gem.name = "cantango-permits"
+  gem.homepage = "http://github.com/kristianmandrup/cantango-permits"
   gem.license = "MIT"
   gem.summary = %Q{Permits with engine for cantango}
   gem.description = %Q{Permit classes and engine for CanTango}
@@ -39,7 +39,7 @@ RDoc::Task.new do |rdoc|
   version = File.exist?('VERSION') ? File.read('VERSION') : ""
 
   rdoc.rdoc_dir = 'rdoc'
-  rdoc.title = "permit_store #{version}"
+  rdoc.title = "cantango-permits #{version}"
   rdoc.rdoc_files.include('README*')
   rdoc.rdoc_files.include('lib/**/*.rb')
 end

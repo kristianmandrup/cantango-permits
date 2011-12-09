@@ -1,53 +1,77 @@
 # CanTango Permits
 
-[CanTango](https://github.com/kristianmandrup/cantango) is an advanced Access Control (permissions) system for Rails 3. It:
+The Permit system for [CanTango](https://github.com/kristianmandrup/cantango).
 
-* extends [CanCan](http://github.com/ryanb/cancan) and offers a more role oriented design
-* integrates with _role_ and _authentication_ systems in a non-intrusive manner
-* can _cache_ ability rules between requests for increased performance
-* can _store_ abilites in a permission store, including a YAML file, for easy administration
-* works well with multiple user accounts and sub applications
-* supports multiple [Devise](https://github.com/plataformatec/devise) users
+Permits are a way to partition Ability rules into logical units. 
 
 *CanTango Permits* includes:
 
 * a basic set of useful permits
 * a permit engine to execute the permits
 
+The Permits systems comes with a few useful Permit types out-of-the-box, but you are free to develop your own to suit your needs.
+
+
 ## Basic set of permits
 
-The set of permits are for: roles, role groups, users and accounts.
+The set of Permits types included are: 
+
+* Base
+* UserType < Base
+* AccountType < Base
+* Special < Base
+
 You can easily customize or create your own types of Permits to suit your needs!
+The Permit system will introspect the ability candidate and see which Permits apply and then build and execute these permits automatically, merging all the resulting rule sets into one. 
 
-## Permit engine
+The cantango-roles system adds Permit types for the following:
 
-The permit engine iterates over all the registered types of permits and executes all registered permits of each type. The result is a set of Ability rules that work with the [CanCan](http://github.com/ryanb/cancan) Ability mechanism. 
+* Role < Base
+* RoleGroup < Base
 
-## Install 'permits' gem
+## Permit system
+
+The permit system iterates over all the registered types of permits and executes all registered permits of each type. The result is a set of Ability rules that work with the [CanCan](http://github.com/ryanb/cancan) Ability mechanism. 
+
+## Install 'cantango-permits' gem
 
 ### In current environment (or gemset)
 
-`gem install permits`
+`gem install cantango-permits`
 
 ### In application
 
 Insert into Gemfile
 
-`gem 'permits'`
+`gem 'cantango-permits'`
 
 Run bundler in a terminal/console from the folder of your Gemfile (root folder of app)
 
 `$ bundle`
 
-## Usage
+### Usage
 
 ```ruby
 require 'cantango/permits'
 require 'cantango/permit_engine'
 ```
 
+## Designing a custom Permit
 
-## Update Nov 19, 2011
+Pending...
 
-Initial extraction of permits related functionality. Needs refactoring and testing!
-Not currently working. Any help appreciated ;)
+## Contributing to Cantango Api
+ 
+* Check out the latest master to make sure the feature hasn't been implemented or the bug hasn't been fixed yet
+* Check out the issue tracker to make sure someone already hasn't requested it and/or contributed it
+* Fork the project
+* Start a feature/bugfix branch
+* Commit and push until you are happy with your contribution
+* Make sure to add tests for it. This is important so I don't break it in a future version unintentionally.
+* Please try not to mess with the Rakefile, version, or history. If you want to have your own version, or is otherwise necessary, that is fine, but please isolate to its own commit so I can cherry-pick around it.
+
+## Copyright
+
+Copyright (c) 2011 Kristian Mandrup. See LICENSE.txt for
+further details.
+
