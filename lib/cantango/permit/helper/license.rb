@@ -14,14 +14,20 @@ module CanTango::Permit
 
       protected
 
-      def try_license name
-        module_name = "#{name.camelize}License"
-        clazz = module_name.constantize
-        clazz.new(self).license_rules
+      def license_const name        
+        license_class(name).constantize
       rescue NameError
-        raise "License #{module_name} is not defined"
-      rescue
-        raise "License #{clazz} could not be enforced using #{self.inspect}"
+        raise "License #{license_class(name)} is not defined"
+      end
+      
+      def license_class name 
+        "#{name.camelize}License"
+      end
+
+      def try_license name
+        license_const(name).new(self).calc_rules
+      rescue Exception => e
+        raise "License #{license_const(name)} could not be executed: #{e}"
       end
     end
   end

@@ -1,8 +1,7 @@
-require 'rspec'
-require 'cantango'
+require 'spec_helper'
 require 'fixtures/models'
 
-class AdminsRoleGroupPermit < CanTango::Permit::RoleGroup
+class MyOwnPermit < CanTango::Permit::Base
   def initialize ability
     super
   end
@@ -10,19 +9,20 @@ class AdminsRoleGroupPermit < CanTango::Permit::RoleGroup
   protected
 
   def calc_rules
+    can :read, Article
   end
 end
 
-describe CanTango::Permit::RoleGroup do
+describe CanTango::Permit::ClassMethods do
   before do
     @user = SimpleUser.new
     @ability = CanTango::Ability::Base.new @user
-    @permit = AdminsRoleGroupPermit.new @ability
+    @permit = MyOwnPermit.new @ability
   end
 
-  describe 'attributes' do
-    it "should be the permit for the :admins group" do
-      permit.role_group.should == :admins
+  describe 'inherited(subclass)' do
+    it "should be the permit for the :admin account" do
+      @permit.account_type.should == :admin
     end
 
     it "should have an ability" do
@@ -30,3 +30,5 @@ describe CanTango::Permit::RoleGroup do
     end
   end
 end
+
+

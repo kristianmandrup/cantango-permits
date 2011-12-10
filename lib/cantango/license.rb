@@ -4,16 +4,13 @@ module CanTango
 
     include Rules
 
-    attr_reader :permit, :licenses
+    attr_reader :ability, :licenses
 
-    def initialize permit
-      @permit   = permit
+    def initialize ability
+      @ability   = ability
     end
 
-    def license_rules
-      static_rules
-      permit_rules
-      dynamic_rules
+    def calc_rules
     end
 
     def execute
