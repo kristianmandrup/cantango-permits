@@ -3,6 +3,7 @@ module CanTango
     module ClassMethods
       def inherited(subclass)
         register subclass
+        subclass.extend CanTango::Permit::ClassMethods
       end
 
       def type
@@ -18,7 +19,7 @@ module CanTango
       end
 
       def finder
-        @finder ||= CanTango::Finder::Permit.new permit_name(self), account_name(self)
+        @finder ||= CanTango::Finder::Permit::Base.new permit_name(self), account_name(self)
       end
 
       def build_permit ability, name
@@ -26,7 +27,7 @@ module CanTango
       end
 
       def builder ability, finder
-        @builder ||= CanTango::Builder::Permit.new ability, finder
+        @builder ||= CanTango::Builder::Permit::Base.new ability, finder
       end
 
       protected

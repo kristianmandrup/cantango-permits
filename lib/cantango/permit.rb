@@ -1,6 +1,5 @@
 module CanTango
   module Permit
-    sweetload :Helper, :Base, :ClassMethods
-    sweetload :UserType, :AccountType, :Special, :User
+    sweetload :Helper, :ClassMethods
   end
 end

@@ -9,7 +9,7 @@ module CanTango
       Helper.modules.each do |name|
         include "CanTango::Permit::Helper::#{name.to_s.camelize}".constantize
       end
-      extend ClassMethods
+      extend CanTango::Permit::ClassMethods
 
       # strategy is used to control the owns strategy (see rules.rb)
       attr_reader :ability, :strategy, :disabled

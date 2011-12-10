@@ -4,7 +4,7 @@ require 'cantango/configuration/permit_registry_ex'
 class Menu
 end
 
-class WaiterRolePermit < CanTango::Permit::Role
+class WaiterPermit < CanTango::Permit::UserType
   def initialize ability
     super
   end
@@ -17,7 +17,7 @@ class WaiterRolePermit < CanTango::Permit::Role
   end
 end
 
-class ChefRolePermit < CanTango::Permit::Role
+class ChefPermit < CanTango::Permit::UserType
   def initialize ability
     super
   end
@@ -31,7 +31,7 @@ class ChefRolePermit < CanTango::Permit::Role
 end
 
 class Context
-  include CanTango::Api::User::Ability
+  include CanTango::Api::Ability::User
 end
 
 describe CanTango::Configuration::Permits do
@@ -63,13 +63,13 @@ describe CanTango::Configuration::Permits do
 
     describe 'should tell which permits allowe :read' do
       it 'should show WaiterRolePermit as the permit that allowed :read of Menu' do
-        CanTango.permits_allowed(user, :read, Menu).should include(WaiterRolePermit)
+        CanTango.permits_allowed(user, :read, Menu).should include(WaiterPermit)
       end
     end
 
     describe 'should tell which permits denied :write' do
       it 'should show WaiterRolePermit as the permit that denied :write of Menu' do
-        CanTango.permits_denied(user, :write, Menu).should include(WaiterRolePermit)
+        CanTango.permits_denied(user, :write, Menu).should include(WaiterPermit)
       end
     end
   end

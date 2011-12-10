@@ -15,7 +15,7 @@ end
 
 describe CanTango::Permit::Base do
   before do
-    @user = SimpleUser.new
+    @user = User.new 'kris', 'kris@mail.ru', :roles => [:editor]
     @ability = CanTango::Ability::Base.new @user
     @permit = AdminAccountPermit.new @ability
   end

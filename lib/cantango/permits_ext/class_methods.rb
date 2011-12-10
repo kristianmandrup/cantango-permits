@@ -24,4 +24,5 @@ module CanTango
       config.permits.clear_executed!
     end
   end
+  extend ClassMethods
 end

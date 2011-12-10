@@ -125,7 +125,7 @@ module CanTango
       end
 
       def key_maker
-        CanTango::Ability::CacheKey
+        CanTango::Ability::Cache::SimpleKey
       end
     end
   end
