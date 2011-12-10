@@ -2,7 +2,7 @@ module CanTango
   module Permit
     module Helper
       def self.modules
-        [:Execution, :License, :Naming]
+        [:State, :Execution, :License, :Naming]
       end
       
       sweetload *modules

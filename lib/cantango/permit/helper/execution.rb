@@ -2,8 +2,7 @@ module CanTango::Permit
   module Helper
     module Execution
       include CanTango::Helpers::Debug
-
-      attr_writer :disabled
+      include CanTango::Permit::Helper::State
 
       # executes the permit
       def execute
@@ -12,29 +11,13 @@ module CanTango::Permit
         executor.execute!
       end
 
-      def disable!
-        @enabled = false
-      end
-
-      def disabled?
-        !enabled?
-      end
-
-      def enable!
-        @enabled = true
-      end
-      
-      def enabled?
-        @enabled == true
-      end
-
       # return the executor used to execute the permit
       def executor
         @executor ||= case self.class.name
         when /System/
-          then CanTango::Executor::System.new self
+          then CanTango::Executor::Permit::System.new self
         else
-          CanTango::Executor::Base.new self
+          CanTango::Executor::Permit::Base.new self
         end
       end
 

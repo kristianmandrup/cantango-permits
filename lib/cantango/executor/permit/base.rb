@@ -4,14 +4,14 @@ module CanTango
       class Base < Abstract
         # execute the permit
         def execute!
-          not_valid_permit and return if !valid_permit?
+          not_valid_permit and return unless permit.valid?
           permit.execute!
         end
 
         protected
 
-        def valid_permit?
-          permit.valid_for?(subject) if permit
+        def subject
+          permit.subject
         end
 
         def not_valid_permit
