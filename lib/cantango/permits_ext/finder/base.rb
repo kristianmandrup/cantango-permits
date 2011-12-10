@@ -5,9 +5,12 @@ module CanTango
 
       attr_reader :type, :name
 
-      def initialize name, options = {}
-        @type = options[:type]
-        @name = name.to_s.underscore.to_sym
+      def initialize name, type
+        @name, @type = [name, type]
+      end
+
+      def name
+        @p_name ||= @name.to_s.underscore.to_sym
       end
 
       def permit
@@ -23,11 +26,7 @@ module CanTango
 
       def permits
         registered_permits.registered_for(type)
-      end
-      
-      def permit_class
-        "Permit::#{name.to_s.camelize}"
-      end
+      end      
     end
   end
 end

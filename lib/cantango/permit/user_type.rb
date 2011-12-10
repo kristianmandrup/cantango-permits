@@ -2,30 +2,21 @@ module CanTango
   module Permit
     class UserType < Base
       module ClassMethods
-        def inherited(base_clazz)
-          CanTango.config.permits.register_permit_class base_clazz
-        end
-
-        def permit_name clazz
-          clazz.name.demodulize.gsub(/(.*)(Permit)/, '\1').underscore.to_sym
+        def hash_key
+          permit_name(self)
         end
       end
       extend ClassMethods
 
       # creates the permit
-      # @param [Permits::Ability] the ability
-      # @param [Hash] the options
-      def initialize executor
+      # @param [Ability] the ability
+      def initialize ability
         super
       end
 
-      def valid_for? subject
+      def valid?
         debug_invalid if !(subject_user == permit_user)
         subject_user == permit_user
-      end
-
-      def self.hash_key
-        user_type_name(self)
       end
 
       protected

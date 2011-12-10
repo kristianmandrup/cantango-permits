@@ -1,23 +1,16 @@
 module CanTango
   module Permit
     class Special < Base
-      module ClassMethods
-        def inherited(base_clazz)
-          CanTango.config.permits.register_permit_class base_clazz
-        end
-      end
-      extend ClassMethods
-
-      def initialize executor
+      def initialize ability
         super
-      end
-
-      def valid_for? subject
-        true
       end
 
       def self.hash_key
         nil
+      end
+
+      def valid?
+        true
       end
     end
   end

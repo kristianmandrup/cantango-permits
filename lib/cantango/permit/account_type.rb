@@ -2,35 +2,16 @@ module CanTango
   module Permit
     class AccountType < Base
       module ClassMethods
-        def inherited(base_clazz)
-          CanTango.config.permits.register_permit_class base_clazz
-        end
-
         def type
           :account
         end
 
-        # convention, remove last 
-        def permit_name clazz
-          namespaces = clazz.name.split('::')
-          case namespaces.last
-          when 'Permit'
-            namespaces[0..-2].last.underscore.to_sym
-          when /.+Permit$/
-            namespaces.last.sub(/Permit$/, '').underscore.to_sym
-          else
-            raise "No permit name could be implied from #{clazz.name}"
-          end
+        def hash_key
+          account_type_name(self)
         end
-        alias_method :account_type_name, :permit_name
       end
       extend ClassMethods
-
-      def permit_name
-        self.class.permit_name self.class
-      end
-      alias_method :account_type, :permit_name
-
+      
       # creates the permit
       # @param [Permits::Ability] the ability
       # @param [Hash] the options
@@ -38,30 +19,9 @@ module CanTango
         super
       end
 
-      # In a specific Role based Permit you can use 
-      #   def permit? user, options = {}
-      #     ... permission logic follows
-      #
-      # This will call the Permit::Base#permit? instance method (the method below)
-      # It will only return true if the user matches the role of the Permit class and the
-      #
-      # If these confitions are not met, it will return false and thus the outer permit 
-      # will not run the permission logic to follow
-      #
-      # Normally super for #permit? should not be called except for this case, 
-      # or if subclassing another Permit than Permit::Base
-      #
-      def permit?
-        super
-      end
-
-      def valid_for? subject
+      def valid?
         debug_invalid if !(subject_name == account_name)
         subject_name == account_name
-      end
-
-      def self.hash_key
-        account_type_name(self)
       end
 
       protected
@@ -71,12 +31,11 @@ module CanTango
       end
 
       def subject_name
-        nm = subject.class.name.sub(/.*(Account)$/, '')
-        nm.underscore.to_sym
+        subject.class.name.sub(/.*(Account)$/, '').underscore.to_sym
       end
 
       def account_name
-        account_type(self.class)
+        permit_name(self.class)
       end
     end
   end

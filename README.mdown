@@ -11,12 +11,12 @@ Permits are a way to partition Ability rules into logical units.
 
 The Permits systems comes with a few useful Permit types out-of-the-box, but you are free to develop your own to suit your needs.
 
-
 ## Basic set of permits
 
 The set of Permits types included are: 
 
 * Base
+* User < Base
 * UserType < Base
 * AccountType < Base
 * Special < Base
@@ -58,7 +58,148 @@ require 'cantango/permit_engine'
 
 ## Designing a custom Permit
 
-Pending...
+The Permit system has been designed to be easy to extend with your own types of Permits to suit your
+own needs. Here is an example of how to implement the Permit API.
+
+```ruby
+module CanTango::Permit
+  class MyOwn < Base
+		# creates the permit
+		# @param [CanTango::Ability] the ability
+		def initialize ability
+		  super
+		end
+
+		# how to cache it?
+		def self.hash_key
+      permit_name(self)
+		end_
+
+		# Determine if permit is valid (applies) for the subject
+		# @return (true|false)
+		def valid?
+		  false
+		end
+	end
+end
+```
+
+## Create custom permit builder
+
+```ruby
+module CanTango::Builder::Permit
+  class AccountType < Base
+    # return list of permits built?
+    def build
+      return [] if !user_account
+      [permit].compact
+    end
+
+    protected
+
+    def permit
+      create_permit(user_account.class.to_s)
+    end
+  end
+end
+```
+
+## Configuration
+
+Turn on/off: Enable and disable types of permits and specific permits
+
+```ruby
+CanTango.config.permits do |permits|
+	# which types of permits to enable
+	permits.enabled_types :user_type, :account_type
+
+	permits.enable_all_for :account_type
+	permits.disable_types :user_type, :account_type
+	permits.disable_for :user_type, :admin, :editor
+end
+```
+
+Registration: Which permits have been registered (and for which types)
+
+```ruby
+CanTango.config.permits do |permits|
+	permits.registry_for :account_type # Registry for :account_type permits
+	permits.registered_for :account_type # names of AccountType permits
+	permits.all
+	permits.show_all
+end
+```
+
+Debug: Which permits allowed/denied specific actions for specific candidates to be taken
+
+```ruby
+CanTango.config.permits do |permits|
+	permits.allowed candidate, actions, subjects, *extra_args
+	permits.denied candidate, actions, subjects, *extra_args
+end
+```
+
+### Permit Engine
+
+pending ...
+
+## Permits finder
+
+Will look up a particular registered Permit in the Permit registry (see Configuration).
+Permits are registered automatically by an inheritance hook. If you want to override this, you need
+to register your class directly (manually) with the the permits registry.
+
+```ruby
+module CanTango::Finder::Permit
+  class Base
+  	def initialize name, type
+    	@name, @type = [name, type]
+  	end
+  end
+end
+```
+
+## Permits factory
+
+```ruby
+module CanTango::Factory
+  class Permits
+    def initialize ability
+      @ability = ability
+    end
+
+    # @return Hash of {:permit_type => [permit instances]}
+    def permits
+      @permits ||= enabled_permit_types.inject({}) do |permits, permit_type|
+        built_permits = permits_of(permit_type)
+        permits[permit_type] = built_permits if built_permits
+        permits
+      end
+    end
+  end
+end
+```
+
+## Categories
+
+Categories are loaded from a Yaml file (by default `categories.yaml`). The loader `CanTango::Loader::Categories` is based on the `CanTango::Loader::Yaml` from _cantango-core_. 
+The parser `CanTango::Parser::Categories` parses the yaml into a hash referencing constants (models).
+
+## Macros
+
+The macro `#tango_permit` can be used to attempt to register a Permit class with the Permits registry based on naming conventions and options passed in.
+
+```ruby
+class MySuperPermit < CanTango::Permit::Base
+  tango_permit :name => :super, :type => :user_type, :account => :admin
+
+  # the internals
+end
+```
+
+## Engine
+
+pending...
 
 ## Contributing to Cantango Api
  

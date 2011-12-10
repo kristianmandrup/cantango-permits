@@ -20,19 +20,13 @@ module CanTango
       # return hash of permits built, keyed by name of builder
       def permits
         @permits ||= enabled_permit_types.inject({}) do |permits, permit_type|
-          debug "++ Permit Builder: #{builder_class permit_type}"
-          built_permits = permits_built_with(permit_type)
-
-          if built_permits
-            debug "== Permits built: #{built_permits.size}"
-            permits[permit_type] = built_permits
-          end
-
+          built_permits = permits_of(permit_type)
+          permits[permit_type] = built_permits if built_permits
           permits
         end
       end
 
-      def permits_built_with permit_type
+      def permits_of permit_type
         create_builder(permit_type).build
       end
 
