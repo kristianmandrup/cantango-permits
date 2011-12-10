@@ -8,44 +8,29 @@ module CanTango
       # creates the factory for the ability
       # note that the ability contains the roles and role groups of the user (or account)
       # @param [Permits::Ability] the ability
-      def initialize ability
-        @ability = ability
+      def initialize ability, type
+        @ability, @type = [ability, type]
       end
 
-      def build!
-        debug "Factory::Permits: No permits could be built" if permits.empty?
-        permits
+      def create
+        permits.build
       end
 
-      # return hash of permits built, keyed by name of builder
       def permits
-        @permits ||= enabled_permit_types.inject({}) do |permits, permit_type|
-          built_permits = permits_of(permit_type)
-          permits[permit_type] = built_permits if built_permits
-          permits
-        end
+        permits_builder.new ability
       end
 
-      def permits_of permit_type
-        create_builder(permit_type).build
+      def permits_builder
+        permits_builder_class.constantize
       end
 
-      def create_builder permit_type
-        clazz = builder_class permit_type
-        clazz.constantize.new ability
-      end
-
-      def builder_class permit_type
-        return "CanTango::Builder::Permit::Special" if permit_type == :special
-        "CanTango::Builder::Permit::#{permit_type.to_s.camelize}"
+      def permits_builder_class
+        return "CanTango::Builder::Permit::Special" if type == :special
+        "CanTango::Builder::Permit::#{type.to_s.camelize}"
       end
 
       def enabled_permit_types
         CanTango.config.permits.enabled_types
-      end
-
-      def options
-        ability.options
       end
     end
   end

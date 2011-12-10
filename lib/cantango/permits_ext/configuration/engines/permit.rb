@@ -6,14 +6,6 @@ module CanTango
           @state ||= :on
           @state == :on
         end
-
-        def types
-          [:roles, :role_groups, :licenses, :users]
-        end
-
-        def special_permits
-          [:any, :system]
-        end
         
         protected
         

@@ -139,9 +139,25 @@ CanTango.config.permits do |permits|
 end
 ```
 
-### Permit Engine
+### Permits Engine
 
-pending ...
+The Permits engine can be configured as any other CanTango Engine:
+Use the `on!` and `off!` methods to enable to disable use of the engine.
+Use the `mode=` to set the execution mode.
+
+```ruby
+CanTango.config.engine(:permits) do |engine|
+  # toggle engine on/off
+	engine.on!
+	engine.on?
+	engine.off!
+	engine.valid_mode_names # => [:cache, :no_cache, :both]
+
+  # set execution modes
+	engine.mode = :both
+	engine.modes # => [:cache, :no_cache]
+end
+```
 
 ## Permits finder
 
@@ -159,22 +175,20 @@ module CanTango::Finder::Permit
 end
 ```
 
-## Permits factory
+## Permits Factory
+
+Builds and returns a list of all enabled permits of a specific type
 
 ```ruby
 module CanTango::Factory
   class Permits
-    def initialize ability
+    def initialize ability, type
       @ability = ability
     end
 
-    # @return Hash of {:permit_type => [permit instances]}
-    def permits
-      @permits ||= enabled_permit_types.inject({}) do |permits, permit_type|
-        built_permits = permits_of(permit_type)
-        permits[permit_type] = built_permits if built_permits
-        permits
-      end
+    # @return Array<Permit>
+    def create
+			permits.build
     end
   end
 end
@@ -199,7 +213,35 @@ end
 
 ## Engine
 
-pending...
+```ruby
+module CanTango::Engine
+  class Permits
+		def initialize ability
+		  super
+		end
+
+		def calc_rules
+		  # push result of each permit type execution into main ability rules array
+		  permits.each_pair do |type, permits|
+		    perm_rules = executor(type, permits).execute!
+		    rules << perm_rules if !perm_rules.blank?
+		  end
+		end
+
+		def executor type, permits
+		  CanTango::Ability::Executor::PermitType.new self, type, permits(type)
+		end
+		
+    def permits type
+      @permits ||= permits_factory(type).build!
+    end
+
+    def permits_factory type
+      @permits_factory ||= CanTango::Factory::Permits.new self, type
+    end
+  end
+end
+```
 
 ## Contributing to Cantango Api
  

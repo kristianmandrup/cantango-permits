@@ -7,7 +7,7 @@ module CanTango
         super
       end
 
-      def permit_rules
+      def calc_rules
         # push result of each permit type execution into main ability rules array
         permits.each_pair do |type, permits|
           perm_rules = executor(type, permits).execute!
@@ -16,7 +16,7 @@ module CanTango
       end
 
       def executor type, permits
-        CanTango::Ability::Executor::PermitType.new self, type, permits
+        CanTango::Ability::Executor::PermitType.new self, type, permits_of(type)
       end
 
       def engine_name
@@ -31,8 +31,8 @@ module CanTango
       # by default, only execute permits for which the user
       # has a role or a role group
       # also execute any permit marked as special
-      def permits
-        @permits ||= permit_factory.build!
+      def permits_of type
+        @permits ||= permit_factory(type).build!
       end
 
       def permit_class_names
@@ -56,8 +56,8 @@ module CanTango
         false
       end
 
-      def permit_factory
-        @permit_factory ||= CanTango::Factory::Permit.new self
+      def permit_factory type
+        @permit_factory ||= CanTango::Factory::Permit.new self, type
       end
 
       def key_method_names
