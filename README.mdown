@@ -243,6 +243,13 @@ module CanTango::Engine
 end
 ```
 
+## Design goals
+
+This CanTango extension should have the least amount of dependencies on other extensions.
+For this reason, all dependencies to _cantango-config_ should be removed. 
+In _cantango-config_ the relevant modules/classes should be monkey-patched in order to
+use the configuration.
+
 ## Contributing to Cantango Api
  
 * Check out the latest master to make sure the feature hasn't been implemented or the bug hasn't been fixed yet
