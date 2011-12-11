@@ -1,7 +1,9 @@
 module CanTango
   class Configuration
-    class Engines < HashRegistry
-      autoload_modules :PermitEngineConfig
+    class Engines < Registry::Hash
+      sweet_scope :ns => {:CanTango => 'cantango/permits_ext'} do
+        sweetload :PermitEngineConfig
+      end
     end
   end
 end
