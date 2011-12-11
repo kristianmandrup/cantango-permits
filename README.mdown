@@ -41,20 +41,16 @@ The directory layout should be the following:
 ```text
 - /app
   - /permits
-    - /license
-      - blogging
-      - /admin
-        - blogging
     - /permit
       - /role
-         - editor
+         - editor.rb
       - /role_group
-         - editors
+         - editors.rb
       - /user_type
-         - admin
+         - admin.rb
       -/admin (account)
          - /role
-           - editor
+           - editor.rb
 ```
 
 Default _:editor_ Role permit (scope less):
@@ -91,20 +87,63 @@ end
 
 Here the `#modes` macro is used to indicate that this Permit should only be executed for the `:no_cache` mode.
 
+## Custom permits
+
+Another option is fx to wrap the Permit class inside the Account class namespace like this:
+
+```text
+- /app
+  - /models
+    - /admin_account
+      - editor_role_permit.rb
+    - admin_account.rb
+```
+
+```ruby
+class AdminAccount < ActiveRecord::Base
+	class EditorRolePermit < CanTango::Permit::Role
+	  tango_permit  :name => :editor, :type => :role, :ns => :admin
+
+	  def calc_rules
+	    can :edit, Post if session[:edit_mode]
+	  end
+
+	  modes :no_cache
+	end
+end
+```
+
+By default this is not supported out-of-the-box, hence you have to use the `#tango_permit` macro to tell CanTango exactly how to understand this custom class namespace layout.
+
+Note: This is NOT a recommended approach.
+
 ### Licenses
+
+Licenses have their own namespace folder `license` inside the `app/permits` folder. The default (scope less) licenses are placed directly in the `license` folder. 
+
+```text
+- /app
+  - /permits
+    - /license
+      - blogging.rb
+      - /admin
+        - blogging.rb
+```
 
 Default _:blogging_ License (scope less):
 
 ```ruby
 module License
 	class Blogging < CanTango::License
-    def calc_rules
-      can :edit, Post
-    end
-
     module Cache
       def calc_rules
-        can :edit, Post
+        can [:create, :edit], Post
+      end
+    end
+
+    module NoCache
+      def calc_rules
+        can :publish, Post if session[:publishing] == :on
       end
     end
 	end
