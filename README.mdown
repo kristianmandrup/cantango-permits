@@ -31,7 +31,100 @@ The cantango-roles system adds Permit types for the following:
 
 ## Permit system
 
-The permit system iterates over all the registered types of permits and executes all registered permits of each type. The result is a set of Ability rules that work with the [CanCan](http://github.com/ryanb/cancan) Ability mechanism. 
+The permit system iterates over all the registered types of permits and executes all registered permits of each type. The result is a set of Ability rules that work with the [CanCan](http://github.com/ryanb/cancan) Ability mechanism.
+
+## Defining Permits and Licenses in your app
+
+The `app/permits` folder will be added to Rails autoloading.
+The directory layout should be the following:
+
+```text
+- /app
+  - /permits
+    - /license
+      - blogging
+      - /admin
+        - blogging
+    - /permit
+      - /role
+         - editor
+      - /role_group
+         - editors
+      - /user_type
+         - admin
+      -/admin (account)
+         - /role
+           - editor
+```
+
+Default _:editor_ Role permit (scope less):
+
+```ruby
+module Permit::Role
+	class Editor < CanTango::Permit::Role
+    def calc_rules
+      can :edit, Post
+    end
+
+    module Cache
+      def calc_rules
+        can :edit, Post
+      end
+    end
+	end
+end
+```
+
+The _:editor_ Role permit applicable for the Admin scope. Typically the scope is linked to the account (but doesn't have to be).
+
+```ruby
+module Permit::Admin::Role
+	class Editor < CanTango::Permit::Role
+	  def calc_rules
+	    can :edit, Post if session[:edit_mode]
+	  end
+	
+	  modes :no_cache
+	end
+end
+```
+
+Here the `#modes` macro is used to indicate that this Permit should only be executed for the `:no_cache` mode.
+
+### Licenses
+
+Default _:blogging_ License (scope less):
+
+```ruby
+module License
+	class Blogging < CanTango::License
+    def calc_rules
+      can :edit, Post
+    end
+
+    module Cache
+      def calc_rules
+        can :edit, Post
+      end
+    end
+	end
+end
+```
+
+The _:editor_ License applicable for the Admin scope. Typically the scope is linked to the account (but doesn't have to be).
+
+```ruby
+module License::Admin
+	class Blogging < CanTango::License
+	  def calc_rules
+	    can :edit, Post
+	  end
+	
+	  modes :all
+	end
+end
+```
+
 
 ## Install 'cantango-permits' gem
 
