@@ -1,4 +1,4 @@
-class CanTango::Configuration
+class CanTango::Config
   class Permits
     class Key
       include Singleton

@@ -1,4 +1,4 @@
-class CanTango::Configuration
+class CanTango::Config
   class Permits
     module Execution
       def was_executed permit, ability

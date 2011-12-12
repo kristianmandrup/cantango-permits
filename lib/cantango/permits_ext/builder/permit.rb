@@ -2,7 +2,7 @@ module CanTango
   module Builder
     module Permit
       sweet_scope :ns => {:CanTango => 'cantango/permits_ext'} do
-        sweetload :Base, :RoleGroup, :Role, :UserType, :AccountType
+        sweetload :Base, :UserType, :AccountType
       end
     end
   end

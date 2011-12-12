@@ -16,18 +16,6 @@ class CustomerRolePermit < CanTango::Permit::Role
   end
 end
 
-class SimpleUser
-  attr_accessor :roles_list
-
-  def initialize
-    @roles_list = [:customer]
-  end
-
-  def role_groups_list
-    []
-  end
-end
-
 describe CanTango::PermitEngine::Executor::Base do
   before do
     @user = SimpleUser.new

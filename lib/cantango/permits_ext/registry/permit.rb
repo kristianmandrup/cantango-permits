@@ -1,6 +1,6 @@
 module CanTango
   module Registry
-    class Permit
+    module Permit
       def registry_for type
         raise ArgumentError, "Not an available permit type" if !CanTango.config.permits.available_types.include? type
         inst_var_name = "@#{type}"

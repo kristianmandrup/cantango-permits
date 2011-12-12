@@ -1,4 +1,4 @@
-class CanTango::Configuration
+class CanTango::Config
   class Permits
     module Disabling
       def disable_for type, *names

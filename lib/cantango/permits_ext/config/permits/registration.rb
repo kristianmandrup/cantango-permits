@@ -1,4 +1,4 @@
-class CanTango::Configuration
+class CanTango::Config
   class Permits
     module Registration
       def register_permit clazz, options = {}

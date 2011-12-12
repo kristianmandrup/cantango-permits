@@ -1,4 +1,4 @@
-class CanTango::Configuration
+class CanTango::Config
   class Permits
     module Tracking
       def allowed candidate, actions, subjects, *extra_args

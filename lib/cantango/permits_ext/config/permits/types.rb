@@ -1,8 +1,7 @@
-class CanTango::Configuration
+class CanTango::Config
   class Permits
-    class Types 
+    class Types < CanTango::Registry::Base
       include Singleton
-      include CanTango::Registry::Base
 
       attr_writer :enabled
 

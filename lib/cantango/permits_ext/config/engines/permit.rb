@@ -1,5 +1,5 @@
 module CanTango
-  class Configuration
+  class Config
     class Engines
       class PermitEngineConfig < EngineConfig
         def on?

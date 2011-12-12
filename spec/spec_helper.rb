@@ -2,7 +2,7 @@ require 'rspec'
 require 'require_all'
 
 require 'cantango/core'
-require 'cantango/configuration'
+require 'cantango/config'
 require 'cantango/api'
 require 'cantango/permits'
 require 'cutter'

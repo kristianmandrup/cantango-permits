@@ -1,9 +1,8 @@
 module CanTango
-  class Configuration
+  class Config
     class Permits
       include Singleton
       include CanTango::Helpers::Debug
-
       include CanTango::Registry::Permit
 
       sweet_scope :ns => {:CanTango => 'cantango/permits_ext'} do
@@ -16,7 +15,6 @@ module CanTango
       include Enabling
       include Accounts
       include Registration
-      include Types
 
       attr_writer :available, :default_permits
 

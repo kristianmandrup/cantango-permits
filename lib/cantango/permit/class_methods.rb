@@ -39,7 +39,7 @@ module CanTango
       end
 
       def available_permits
-        CanTango.config.permits.available_permits
+        CanTango.config.permits.available
       end
     end
   end

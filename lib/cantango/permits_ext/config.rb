@@ -1,11 +1,11 @@
 module CanTango
-  class Configuration
+  class Config
     sweet_scope :ns => {:CanTango => 'cantango/permits_ext'} do
-      sweetload :PermitRegistry, :Permits
+      sweetload :Permits
     end
     
     def permits
-      CanTango::Configuration::Permits.instance
+      CanTango::Config::Permits.instance
     end
   end
 end
