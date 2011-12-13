@@ -20,15 +20,15 @@ describe CanTango::Permit::Base do
     @permit = AdminAccountPermit.new @ability
   end
 
+  subject { @permit }
+
   describe 'attributes' do
     it "should be the permit for the :admin account" do
-      permit.account_type.should == :admin
+      subject.account_type.should == :admin
     end
 
     it "should have an ability" do
-      permit.ability.should be_a(CanTango::Ability)
+      subject.ability.should be_a(CanTango::Ability)
     end
   end
 end
-
-

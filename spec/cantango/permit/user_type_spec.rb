@@ -21,14 +21,15 @@ describe CanTango::Permit::UserType do
     @permit = AdminPermit.new @ability
   end
 
+  subject { @permit }
+
   describe 'attributes' do
     it "should be the permit for the :admin user" do
-      permit.user_type.should == :admin
-      permit.permit_name.should == :admin
+      subject.permit_name.should == :admin
     end
 
     it "should have an ability" do
-      permit.ability.should be_a(CanTango::Ability::Base)
+      subject.ability.should be_a(CanTango::Ability::Base)
     end
   end
 
@@ -38,7 +39,7 @@ describe CanTango::Permit::UserType do
     end
 
     it "should have an ability" do
-      permit.disabled?.should be_true
+      subject.disabled?.should be_true
     end
   end
 
@@ -49,8 +50,7 @@ describe CanTango::Permit::UserType do
 
     it "should be disabled" do
       CanTango.config.permits.disabled.should be_empty
-      permit.disabled?.should be_false
+      subject.disabled?.should be_false
     end
   end
 end
-
