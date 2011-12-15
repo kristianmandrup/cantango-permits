@@ -13,6 +13,7 @@ module CanTango
       include Execution
       include Tracking
       include Enabling
+      include Disabling
       include Accounts
       include Registration
 
@@ -21,8 +22,6 @@ module CanTango
       def available
         @available ||= default_permits
       end
-
-      protected
 
       def default_permits
         @default_permits ||= {}
@@ -33,7 +32,6 @@ module CanTango
         Types.instance
       end
 
-      # permit types
       def key
         Key.instance
       end

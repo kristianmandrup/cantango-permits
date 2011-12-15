@@ -15,7 +15,7 @@ class BloggingLicense < CanTango::License
   end
 end
 
-describe CanTango::Permit::Helper::Naming do
+describe CanTango::Permit::Helper::License do
   before do
     @user = User.new 'kris', 'kris@mail.ru', :roles => [:editor]
   end

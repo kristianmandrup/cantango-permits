@@ -28,6 +28,14 @@ describe CanTango::Permit::UserType do
       subject.permit_name.should == :admin
     end
 
+    it "should have a user candidate" do
+      subject.candidate.should be_a(SimpleUser)
+    end
+
+    it "should have a user subject" do
+      subject.send(:user).should be_a(SimpleUser)
+    end
+
     it "should have an ability" do
       subject.ability.should be_a(CanTango::Ability::Base)
     end
@@ -35,7 +43,7 @@ describe CanTango::Permit::UserType do
 
   describe 'disable Admin Permit' do
     before do
-      CanTango.config.permits.disable_for :user, [:admin, :editor]
+      CanTango.config.permits.disable_for :user_type, [:admin, :editor]
     end
 
     it "should have an ability" do

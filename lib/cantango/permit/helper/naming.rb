@@ -2,8 +2,8 @@ module CanTango::Permit
   module Helper
     module Naming
       def permit_name clazz = nil
-        clazz ||= self if is_class?(self)
-        raise ArgumentError, "Must take a Class as an argument, was: #{clazz}" unless is_class?(clazz)
+        clazz ||= is_class?(self) ? self : self.class
+        # raise ArgumentError, "Must take a Class as an argument, was: #{clazz}" unless is_class?(clazz)
         namespaces = clazz.name.split('::')
         name = (namespaces[-2] == 'Permit') ? namespaces.last : namespaces.last.sub(/Permit$/, '')
         name.underscore.to_sym

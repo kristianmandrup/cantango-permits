@@ -10,10 +10,6 @@ module CanTango
 
         protected
 
-        def subject
-          permit.subject
-        end
-
         def not_valid_permit
           debug "Permit #{permit} is not valid for #{subject}"
         end

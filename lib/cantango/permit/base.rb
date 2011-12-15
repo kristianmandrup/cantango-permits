@@ -14,8 +14,7 @@ module CanTango
       # strategy is used to control the owns strategy (see rules.rb)
       attr_reader :ability, :strategy, :disabled
 
-      delegate :ability, :to => :executor
-      delegate :cached?, :options, :subject, :user, :user_account, :to => :ability
+      delegate :cached?, :options, :subject, :candidate, :user, :user_account, :to => :ability
 
       def name
         self.class.permit_name self.class

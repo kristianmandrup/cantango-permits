@@ -6,7 +6,7 @@ class CanTango::Config
       attr_writer :enabled
 
       def available
-        available.keys
+        registered
       end
 
       def enabled
