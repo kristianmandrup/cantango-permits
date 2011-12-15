@@ -7,8 +7,8 @@ class CanTango::Config
         @accounts ||= Hash.new
       end
 
-      def account_hash name
-        accounts[name]
+      def account_for name
+        accounts[name.to_sym]
       end
     end
   end
