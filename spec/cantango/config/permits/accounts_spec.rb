@@ -3,10 +3,10 @@ require 'spec_helper'
 class Accounts
   include Singleton
   
-  include CanTango::Configuration::Permits::Accounts
+  include CanTango::Config::Permits::Accounts
 end
 
-describe CanTango::Configuration::Permits::Accounts do
+describe CanTango::Config::Permits::Accounts do
   subject { Accounts.new }
   
   describe 'accounts=' do

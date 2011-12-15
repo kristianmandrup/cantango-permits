@@ -3,10 +3,10 @@ require 'spec_helper'
 class Types
   include Singleton
   
-  include CanTango::Configuration::Permits::Types
+  include CanTango::Config::Permits::Types
 end
 
-describe CanTango::Configuration::Permits::Types do
+describe CanTango::Config::Permits::Types do
   subject { Types.new }
   
   describe 'available' do

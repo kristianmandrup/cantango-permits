@@ -3,14 +3,20 @@ require 'spec_helper'
 class Disabling
   include Singleton
   
-  include CanTango::Configuration::Permits::Disabling
+  include CanTango::Config::Permits::Disabling
 end
 
-describe CanTango::Configuration::Permits::Disabling do
+CanTango.config do |c|
+  c.permits.register_permit
+end
+
+describe CanTango::Config::Permits::Disabling do
   subject { Disabling.new }
   
   describe 'disable_for type, *names' do
-    pending
+    before do
+      Disabling.disable_for :user_type, [:admin, :editor]
+    end
   end
 
   describe 'disabled_for type' do

@@ -11,6 +11,10 @@ module CanTango::Permit
         return nil if clazz.name == clazz.name.demodulize
         clazz.name.gsub(/::.*/,'').gsub(/(.*)Permits/, '\1').underscore.to_sym
       end
+      
+      def permit_type clazz
+        permit_name clazz.superclass
+      end
 
       protected
 

@@ -2,7 +2,7 @@ require 'rspec'
 require 'cantango'
 require 'fixtures/models'
 
-describe CanTango::Configuration::Engines::Permit do
+describe CanTango::Config::Engines::Permit do
     subject { CanTango.config.permit_engine }
 
     describe 'SpecialPermits' do

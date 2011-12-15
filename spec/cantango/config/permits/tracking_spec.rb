@@ -3,10 +3,10 @@ require 'spec_helper'
 class Tracking
   include Singleton
   
-  include CanTango::Configuration::Permits::Tracking
+  include CanTango::Config::Permits::Tracking
 end
 
-describe CanTango::Configuration::Permits::Tracking do
+describe CanTango::Config::Permits::Tracking do
   subject { Tracking.new }
   
   describe 'allowed(candidate, actions, subjects)' do

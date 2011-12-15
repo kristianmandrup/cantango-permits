@@ -3,10 +3,10 @@ require 'spec_helper'
 class Enabling
   include Singleton
   
-  include CanTango::Configuration::Permits::Enabling
+  include CanTango::Config::Permits::Enabling
 end
 
-describe CanTango::Configuration::Permits::Enabling do
+describe CanTango::Config::Permits::Enabling do
   subject { Enabling.new }
 
   describe 'enabled_all_for' do

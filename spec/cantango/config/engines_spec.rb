@@ -14,7 +14,7 @@ class PerformanceTool
   end
 end
 
-describe CanTango::Configuration::Engines do
+describe CanTango::Config::Engines do
   subject { CanTango.config.engines }
 
   describe 'default settings' do

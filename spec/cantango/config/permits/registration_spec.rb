@@ -3,10 +3,10 @@ require 'spec_helper'
 class Registration
   include Singleton
   
-  include CanTango::Configuration::Permits::Registration
+  include CanTango::Config::Permits::Registration
 end
 
-describe CanTango::Configuration::Permits::Registration do
+describe CanTango::Config::Permits::Registration do
   subject { Registration.new }
   
   describe '' do

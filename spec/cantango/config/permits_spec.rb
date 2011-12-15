@@ -34,10 +34,10 @@ class Context
   include CanTango::Api::Ability::User
 end
 
-describe CanTango::Configuration::Permits do
-  subject { CanTango::Configuration::Permits.instance }
+describe CanTango::Config::Permits do
+  subject { CanTango::Config::Permits.instance }
 
-  it_should_behave_like CanTango::Configuration::PermitRegistry
+  it_should_behave_like CanTango::Config::PermitRegistry
 
   describe 'clear_permits_executed!' do
     specify { CanTango.config.permits.executed.should be_empty }

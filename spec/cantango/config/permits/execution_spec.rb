@@ -3,10 +3,10 @@ require 'spec_helper'
 class Execution
   include Singleton
   
-  include CanTango::Configuration::Permits::Execution
+  include CanTango::Config::Permits::Execution
 end
 
-describe CanTango::Configuration::Permits::Execution do
+describe CanTango::Config::Permits::Execution do
   subject { Execution.new }
   
   describe 'was_executed(permit, ability)' do
