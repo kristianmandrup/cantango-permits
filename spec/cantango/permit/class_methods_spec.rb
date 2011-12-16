@@ -1,7 +1,7 @@
 require 'spec_helper'
 require 'fixtures/models'
 
-class MyOwnPermit < CanTango::Permit::Base
+class MyOwnPermit < CanTango::Permit::UserType
   def initialize ability
     super
   end
@@ -14,38 +14,24 @@ class MyOwnPermit < CanTango::Permit::Base
 end
 
 describe CanTango::Permit::ClassMethods do
-  before do
-    @user = User.new 'kris', 'kris@mail.ru', :roles => [:editor]
-    @ability = CanTango::Ability::Base.new @user
-    @permit = MyOwnPermit.new @ability
-  end
+  subject { MyOwnPermit }
 
-  # describe 'inherited(subclass)' do
-  #   it "should be the permit for the :admin account" do
-  #     @permit.account_type.should == :admin
-  #   end
-  # 
-  #   it "should have an ability" do
-  #     @permit.ability.should be_a(CanTango::Ability)
-  #   end
-  # end
-  
-  describe 'finder' do
-    before do
-      @finder = MyOwnPermit.finder
+  describe 'inherited(subclass)' do
+    it "should be the permit for the :admin account" do
+      subject.permit_type.should == :user_type
+    end  
+
+    it "should not be an account permit" do
+      subject.account_name.should == nil
+    end  
+
+    it "should not be an account permit" do
+      subject.permit_name.should == :my_own
+    end  
+
+    it "should have a finder" do
+      subject.finder.should be_a CanTango::Finder::Permit::Base
     end
-    specify { @finder.should be_a CanTango::Finder::Permit::Base }
-
-    # specify { @finder.account.should == nil }
-    # specify { @finder.type.should == nil }
-    # specify { @finder.name.should == nil }
-  end
-  
-  # describe 'builder' do
-  #   before do
-  #     @builder = MyOwnPermit.builder
-  #   end
-  #   specify { @builder.should be_a CanTango::Builder::Permit::Base }
-  # end
+  end  
 end
 

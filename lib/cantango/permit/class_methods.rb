@@ -19,15 +19,7 @@ module CanTango
       end
 
       def finder
-        @finder ||= CanTango::Finder::Permit::Base.new permit_name(self), account_name(self)
-      end
-
-      def build_permit ability, name
-        builder(ability, finder).create_permit name
-      end
-
-      def builder ability, finder
-        @builder ||= CanTango::Builder::Permit::Base.new ability, finder
+        @finder ||= CanTango::Finder::Permit::Base.new permit_name(self), :account => account_name(self)
       end
 
       protected

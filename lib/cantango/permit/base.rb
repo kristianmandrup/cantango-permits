@@ -53,6 +53,18 @@ module CanTango
         config.models.by_reg_exp reg_exp
       end
 
+      def build_permit ability, name
+        builder(ability, finder).create_permit name
+      end
+
+      def builder ability, finder
+        @builder ||= CanTango::Builder::Permit::Base.new ability, finder
+      end
+      
+      def finder
+        self.class.finder
+      end
+
      CanTango::Api::Options.options_list.each do |obj|
        class_eval %{
           def #{obj}

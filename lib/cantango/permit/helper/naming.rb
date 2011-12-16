@@ -3,16 +3,13 @@ module CanTango::Permit
     module Naming
       def permit_name clazz = nil
         clazz ||= is_class?(self) ? self : self.class
-        # raise ArgumentError, "Must take a Class as an argument, was: #{clazz}" unless is_class?(clazz)
         namespaces = clazz.name.split('::')
         name = (namespaces[-2] == 'Permit') ? namespaces.last : namespaces.last.sub(/Permit$/, '')
         name.underscore.to_sym
       end
 
       def account_name clazz = nil
-        clazz ||= self if is_class?(self)
-        raise ArgumentError, "Must take a Class as an argument, was: #{clazz}" unless is_class?(clazz)
-
+        clazz ||= is_class?(self) ? self : self.class
         return nil if clazz.name == clazz.name.demodulize         
         top_module = clazz.name.gsub(/::.*/,'')
         return nil unless /Permits$/ =~ top_module  
@@ -20,18 +17,14 @@ module CanTango::Permit
       end
       
       def permit_type clazz = nil
-        clazz ||= self if is_class?(self)
-        raise ArgumentError, "Must take a Class as an argument, was: #{clazz}" unless is_class?(clazz)
-
+        clazz ||= is_class?(self) ? self : self.class
         permit_name clazz.superclass
       end
 
       protected
 
       def first_name clazz = nil
-        clazz ||= self if is_class?(self)
-        raise ArgumentError, "Must take a Class as an argument, was: #{clazz}" unless is_class?(clazz)
-
+        clazz ||= is_class?(self) ? self : self.class
         clazz.to_s.gsub(/^([A-Za-z]+).*/, '\1').underscore.to_sym # first part of class name
       end
       
