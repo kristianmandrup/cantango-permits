@@ -3,6 +3,7 @@ module CanTango::Permit
     module Naming
       def permit_name clazz = nil
         clazz ||= is_class?(self) ? self : self.class
+        return nil unless clazz.name =~ /Permit/
         namespaces = clazz.name.split('::')
         name = (namespaces[-2] == 'Permit') ? namespaces.last : namespaces.last.sub(/Permit$/, '')
         name.underscore.to_sym
