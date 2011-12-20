@@ -14,10 +14,6 @@ module CanTango
         raise NotImplementedError
       end
 
-      def find_permit
-        finder.get_permit
-      end
-
       def finder
         @finder ||= CanTango::Finder::Permit::Base.new permit_name(self), :account => account_name(self)
       end

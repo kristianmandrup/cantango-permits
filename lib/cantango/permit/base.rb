@@ -29,35 +29,31 @@ module CanTango
         self.class.type
       end
 
-      def ability_rules
-        ability.send :rules
-      end
-
       def disable!
         @disabled = true
       end
 
       def disabled?
-        @disabled || config_disabled?
+        @disabled || CanTango.config.permits.disabled? name
       end
 
-      def valid_for? subject
+      def valid?
         raise NotImplementedError
       end
 
       def category label
-        config.models.by_category label
+        CanTango.config.models.by_category label
       end
 
       def any reg_exp
-        config.models.by_reg_exp reg_exp
+        CanTango.config.models.by_reg_exp reg_exp
       end
 
-      def build_permit ability, name
-        builder(ability, finder).create_permit name
+      def build_permit name
+        builder.create_permit name
       end
 
-      def builder ability, finder
+      def builder
         @builder ||= CanTango::Builder::Permit::Base.new ability, finder
       end
       
@@ -73,17 +69,9 @@ module CanTango
         }
       end
 
-      def localhost?
-        config.localhost_list.include? request.host
-      end
-
-      def publichost?
-        !localhost?
-      end
-
-      def ability_sync!
-        ability_rules << (rules - ability_rules)
-        ability_rules.flatten!
+      def sync_rules!
+        ability.rules << (rules - ability_rules)
+        ability.rules.flatten!
       end
 
       protected
