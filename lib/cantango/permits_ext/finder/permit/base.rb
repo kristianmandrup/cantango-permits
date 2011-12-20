@@ -12,7 +12,7 @@ module CanTango
           @account = options[:account]
         end
 
-        def get_permit
+        def find_permit
           raise find_error if !retrieve_permit
           retrieve_permit
         end

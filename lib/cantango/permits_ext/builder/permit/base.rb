@@ -10,8 +10,9 @@ module CanTango
       # creates the factory for the ability
       # note that the ability contains the roles and role groups of the user (or account)
       # @param [Permits::Ability] the ability
-      def initialize ability
+      def initialize ability, finder
         @ability = ability
+        @finder = finder
       end
 
       def self.permit_type
@@ -43,16 +44,7 @@ module CanTango
       end
 
       def permit_class name
-        finder(name).get_permit
-      end
-
-      def finder name
-        CanTango::Permit::Finder.new name, permit_type, account_name
-      end
-
-      # TODO: FIX!
-      def account_name
-        user_account.class.name.underscore.to_sym if user_account
+        finder.find_permit
       end
 
       # delegate to ability
