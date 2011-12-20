@@ -2,11 +2,11 @@ module CanTango::Permit
   module Helper
     module Host
       def local_host?
-        CanTango.config.localhost.registered.include? request.host
+        CanTango.config.localhosts.registered.include? request.host
       end
 
       def public_host?
-        !localhost?
+        !local_host?
       end
     end
   end

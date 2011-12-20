@@ -34,7 +34,7 @@ module CanTango
       end
 
       def disabled?
-        @disabled || CanTango.config.permits.disabled? name
+        @disabled || CanTango.config.permits.disabled?(name)
       end
 
       def valid?
