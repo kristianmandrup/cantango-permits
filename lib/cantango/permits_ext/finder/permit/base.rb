@@ -28,7 +28,7 @@ module CanTango
         end
 
         def found_permit
-          @found_permit ||= permits[name]
+          @found_permit ||= permits.registered.send(name)
         end
         alias_method :registered?, :found_permit
 

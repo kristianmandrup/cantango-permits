@@ -25,7 +25,7 @@ module CanTango
       include CanTango::Permit::Helper::Naming
 
       def register subclass
-        permits.register_permit subclass
+        permits.register_permit subclass, :account => account_name
       end
 
       def permits

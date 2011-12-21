@@ -33,6 +33,10 @@ module CanTango
       def available_types
         CanTango.config.permits.types.available
       end
+      
+      class Base
+        include CanTango::Registry::Permit
+      end
     end
   end
 end

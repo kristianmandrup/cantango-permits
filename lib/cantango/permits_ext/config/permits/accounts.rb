@@ -1,14 +1,14 @@
 class CanTango::Config
   class Permits
-    module Accounts
-      attr_reader :accounts
-
-      def accounts
-        @accounts ||= Hash.new
+    class Accounts
+      include Singleton
+            
+      def registry_for name
+        registries[name] ||= CanTango::Registry::Permit::Base.new
       end
-
-      def account_for name
-        accounts[name.to_sym]
+      
+      def registries
+        @registries ||= {}
       end
     end
   end

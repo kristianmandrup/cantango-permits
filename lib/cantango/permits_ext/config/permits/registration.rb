@@ -16,14 +16,24 @@ class CanTango::Config
         permit_type = options[:type]    || permit_type(permit_clazz)
         acc_name    = options[:account] || (permit_clazz.account_name if permit_clazz.respond_to?(:account_name))
 
-        puts "acc_name: #{acc_name}"
-        registry = acc_name ? account_for(acc_name) : self
+        puts "options: #{options}"
+
+        registry = acc_name ? accounts.registry_for(acc_name) : self
+        
+        unless registry
+          raise acc_name ? "Missing Permit account Registry for #{acc_name}" : "Missing Permit Registry for #{self}"
+        end 
+        
+        puts "registry: #{registry.inspect}"
         
         acc_debug = acc_name ? "(#{acc_name})" : ''
         debug "Registering #{permit_type} permit: #{permit_name} of class #{permit_clazz} #{acc_debug}"
 
         permit_registry = registry.permit_registry_for(permit_type)
-        permit_registry[permit_name] = permit_clazz
+        puts "registry #{acc_name.inspect} #{permit_type.inspect}: #{permit_registry}"
+        permit_registry.register permit_name => permit_clazz
+        
+        puts "permit_registry: #{permit_registry.registered.inspect}"
       end
     end
   end

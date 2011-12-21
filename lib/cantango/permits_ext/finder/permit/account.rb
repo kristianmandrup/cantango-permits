@@ -13,26 +13,18 @@ module CanTango
           retrieve_permit
         end
 
+        def permits
+          account_registry.registered_for(type)
+        end
+
+        def account_registry
+          CanTango.config.permits.accounts.registry_for(account)
+        end
+
         protected
 
         def found_permit
-          @found_permit ||= permits[name] if registered?(account.class)
-        end
-
-        def permits
-          account_permits.registered_for(type)
-        end
-
-        def account_permits
-          registered_permits.send(account_name)
-        end
-
-        def registered? account
-          CanTango.config.accounts.registered_class? account
-        end
-
-        def account_name
-          account.class.name.underscore
+          @found_permit ||= permits.registered[name]
         end
 
         def permits_to_try
@@ -47,7 +39,7 @@ module CanTango
         end
 
         def permit_ns
-          "#{account.class}Permits"
+          "#{account}Permits"
         end
       end
     end

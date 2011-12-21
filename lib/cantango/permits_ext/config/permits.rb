@@ -14,7 +14,6 @@ module CanTango
       include Tracking
       include Enabling
       include Disabling
-      include Accounts
       include Registration
 
       attr_writer :available, :default_permits
@@ -25,6 +24,10 @@ module CanTango
 
       def default_permits
         @default_permits ||= {}
+      end
+
+      def accounts
+        Accounts.instance
       end
 
       # permit types

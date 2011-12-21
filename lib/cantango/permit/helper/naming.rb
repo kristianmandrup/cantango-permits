@@ -13,7 +13,8 @@ module CanTango::Permit
         clazz ||= is_class?(self) ? self : self.class
         return nil if clazz.name == clazz.name.demodulize         
         top_module = clazz.name.gsub(/::.*/,'')
-        return nil unless /Permits$/ =~ top_module  
+        return nil unless /Permits$/ =~ top_module 
+        top_module.gsub!(/Account/, '') 
         top_module.gsub(/(.*)Permits/, '\1').underscore.to_sym
       end
       
