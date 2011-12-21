@@ -1,7 +1,10 @@
 require 'spec_helper'
 require 'fixtures/models'
 
-class AdminsRoleGroupPermit < CanTango::Permit::RoleGroup
+CanTango.config.permits.types.register :user_type
+CanTango.config.debug.set :on
+
+class AdminPermit < CanTango::Permit::UserType
   def initialize ability
     super
   end
@@ -12,27 +15,25 @@ class AdminsRoleGroupPermit < CanTango::Permit::RoleGroup
   end
 end
 
-describe CanTango::Permit::Factory do
-  before do
-    CanTango.config.cache_engine.set :off
-    
-    @user = User.new 'kris', 'kris@mail.ru', :roles => [:editor]
-    @ua = UserAccount.new user, :roles => [:admin, :user], :role_groups => []
+describe CanTango::Factory::Permits do
+  before do    
+    @user = User.new 'kris', 'kris@mail.ru'
+    @ua = UserAccount.new @user
     @user.account = @ua
     @ability = CanTango::Ability::Base.new @user
   end
 
-  subject { CanTango::Permit::Factory.new ability }
+  subject { CanTango::Factory::Permits.new @ability, :user_type }
 
   describe 'attributes' do
     it "should have an ability" do
-      subject.ability.should be_a(CanTango::Ability)
+      subject.ability.should be_a(CanTango::Ability::Base)
     end
   end
 
-  describe '#build!' do
+  describe '#create' do
     it 'should build a list of permits' do
-      subject.build!.should_not be_empty
+      subject.create.should_not be_empty
     end
   end
 end

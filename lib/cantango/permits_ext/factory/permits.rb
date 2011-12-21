@@ -4,6 +4,7 @@ module CanTango
       include CanTango::Helpers::Debug
 
       attr_accessor :ability
+      attr_reader :type
 
       # creates the factory for the ability
       # note that the ability contains the roles and role groups of the user (or account)
@@ -17,7 +18,11 @@ module CanTango
       end
 
       def permits
-        permits_builder.new ability
+        permits_builder.new ability, permit_finder
+      end
+      
+      def permit_finder
+        CanTango::Finder::Permit::Base.new name, options
       end
 
       def permits_builder
@@ -30,7 +35,7 @@ module CanTango
       end
 
       def enabled_permit_types
-        CanTango.config.permits.enabled_types
+        CanTango.config.permits.types.enabled
       end
     end
   end

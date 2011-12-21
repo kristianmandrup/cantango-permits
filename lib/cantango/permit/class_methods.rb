@@ -4,8 +4,10 @@ module CanTango
       def inherited(subclass)
         unless subclass.superclass == CanTango::Permit::Base
           subclass.extend CanTango::Permit::ClassMethods
-          register(subclass) 
-        end
+          register(subclass)
+        else
+          CanTango.config.permits.types.register subclass.name.underscore
+        end        
       end
 
       def type

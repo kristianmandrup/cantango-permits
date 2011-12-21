@@ -16,7 +16,7 @@ module CanTango
       end
 
       def self.permit_type
-        self.name.demodulize.gsub(/(.*)(Builder)/, '\1').underscore.to_sym
+        self.name.demodulize.gsub(/Permit/, '').gsub(/(.*)(Builder)/, '\1').underscore.to_sym
       end
 
       def permit_type
