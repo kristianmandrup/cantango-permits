@@ -5,12 +5,11 @@ module CanTango
 
       attr_reader :type, :name
 
-      def initialize name, type
-        @name, @type = [name, type]
-      end
-
-      def name
-        @p_name ||= @name.to_s.underscore.to_sym
+      def initialize name, options
+        @name = name.to_s.underscore.to_sym 
+        @type = options[:type]
+        raise ArgumentError, "Missing name of permit to find" if !name
+        raise ArgumentError, "Missing type of permit to find" if !type
       end
 
       def permit
@@ -26,7 +25,11 @@ module CanTango
 
       def permits
         registered_permits.registered_for(type)
-      end      
+      end
+      
+      def registered_permits
+        CanTango.config.permits
+      end          
     end
   end
 end

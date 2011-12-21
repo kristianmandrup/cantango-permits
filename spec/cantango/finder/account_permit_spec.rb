@@ -1,14 +1,14 @@
 require 'spec_helper'
 
 module AdminAccountPermits
-  class PublisherRolePermit < CanTango::Permit::Role
+  class PublisherPermit < CanTango::Permit::UserType
   end
 end
 
-describe CanTango::Permit::AccountFinder do
+describe CanTango::Finder::Permit::Account do
   subject do
-    CanTango::Permit::AccountFinder.new :publisher, :type => :role, :account => :admin
+    CanTango::Permit::Finder::Account.new :publisher, :type => :user_type, :account => :admin
   end
   
-  specify { subject.permit.should be_a CanTango::Permit }
+  specify { subject.find_permit.should be_a PublisherPermit }
 end

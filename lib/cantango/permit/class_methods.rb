@@ -2,8 +2,10 @@ module CanTango
   module Permit
     module ClassMethods
       def inherited(subclass)
-        register subclass
-        subclass.extend CanTango::Permit::ClassMethods
+        unless subclass.superclass == CanTango::Permit::Base
+          subclass.extend CanTango::Permit::ClassMethods
+          register(subclass) 
+        end
       end
 
       def type
@@ -23,11 +25,11 @@ module CanTango
       include CanTango::Permit::Helper::Naming
 
       def register subclass
-        available_permits[permit_name(subclass)] = subclass
+        permits.register_permit subclass
       end
 
-      def available_permits
-        CanTango.config.permits.available
+      def permits
+        CanTango.config.permits
       end
     end
   end

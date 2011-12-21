@@ -4,7 +4,7 @@ class CanTango::Config
       include CanTango::Permit::Helper::Naming
       
       def register_permit clazz, options = {}
-        register clazz, clazz.superclass, options
+        register clazz, options
       end
 
       def register_permit_type clazz, options = {}

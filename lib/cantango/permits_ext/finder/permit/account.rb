@@ -9,10 +9,14 @@ module CanTango
           @account = options[:account]
         end
 
+        def find_permit
+          retrieve_permit
+        end
+
         protected
 
         def found_permit
-          @found_permit ||= permits[name] if registered? account.class
+          @found_permit ||= permits[name] if registered?(account.class)
         end
 
         def permits
@@ -24,11 +28,15 @@ module CanTango
         end
 
         def registered? account
-          CanTango.config.user_accounts.registered_class? account
+          CanTango.config.accounts.registered_class? account
         end
 
         def account_name
           account.class.name.underscore
+        end
+
+        def permits_to_try
+          [permit]
         end
 
         # this is used to namespace role permits for a specific type of user account

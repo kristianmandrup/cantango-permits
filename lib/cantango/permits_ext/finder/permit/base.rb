@@ -5,7 +5,7 @@ module CanTango
         include CanTango::Helpers::Debug
 
         # This class is used to find the right permit, possible scoped for a specific user account
-        attr_reader :account, :type, :name
+        attr_reader :account
 
         def initialize name, options = {}
           super
@@ -17,8 +17,8 @@ module CanTango
           retrieve_permit
         end
 
-        def account_finder
-          @account_finder = CanTango::Permit::Finder::Account.new account
+        def account_finder name
+          @account_finder ||= CanTango::Finder::Permit::Account.new name, :type => type, :account => account
         end
 
         protected
@@ -28,20 +28,16 @@ module CanTango
         end
 
         def found_permit
-          @found_permit ||= registered_permits.registered_for type, name
+          @found_permit ||= permits[name]
         end
         alias_method :registered?, :found_permit
 
-        def permits
-          registered_permits.registered_for(type)
-        end
-
         def account_permit
-          account_finder.find name
+          account_finder(name).find_permit
         end
 
         def find_error
-          "Permit for #{permit_type} #{name} could not be loaded. Define class: #{permit_class} (or wrapped in account scope)"
+          "The #{type} Permit for #{name} could not be loaded. You need to define a coresponding Permit class"
         end
 
         def retrieve_permit
@@ -49,11 +45,7 @@ module CanTango
         end
 
         def permits_to_try
-          [account_permit, permit].compact
-        end
-
-        def registered_permits
-          CanTango.config.permits
+          @permits_to_try ||= [account_permit, permit].compact
         end
       end
     end
