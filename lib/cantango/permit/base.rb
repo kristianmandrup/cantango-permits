@@ -14,15 +14,21 @@ module CanTango
       # strategy is used to control the owns strategy (see rules.rb)
       attr_reader :ability, :strategy, :disabled
 
-      delegate :cached?, :options, :subject, :candidate, :user, :user_account, :to => :ability
+      delegate :cached?, :options, :subject, :candidate, :user, :user_account, :rules, :can, :cannot, :to => :ability
 
       def name
         self.class.permit_name self.class
       end
 
+      attr_writer :mode
+
       # creates the permit
       def initialize ability
         @ability  = ability
+      end
+
+      def mode
+        @mode ||= :no_cache
       end
 
       def permit_type
@@ -49,20 +55,8 @@ module CanTango
         CanTango.config.models.by_reg_exp reg_exp
       end
 
-      def build_permit name
-        builder.create_permit name
-      end
-
-      def builder
-        @builder ||= CanTango::Builder::Permit::Base.new ability, finder
-      end
-      
-      def finder
-        self.class.finder
-      end
-
-     CanTango::Api::Options.options_list.each do |obj|
-       class_eval %{
+      CanTango::Api::Options.options_list.each do |obj|
+        class_eval %{
           def #{obj}
             options[:#{obj}]
           end

@@ -11,8 +11,14 @@ module CanTango::Permit
         
         # check current mode and execute accordingly!?
         calc_rules
+        mode_rules
       end
       alias_method :execute!, :execute
+
+      def mode_rules
+        calc_rules_method = "#{mode}_rules"
+        send(calc_rules_method) if respond_to?(calc_rules_method)
+      end
 
       # return the executor used to execute the permit
       def executor

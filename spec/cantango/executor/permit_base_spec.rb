@@ -8,7 +8,7 @@ class AdminPermit < CanTango::Permit::UserType
 
   protected
 
-  def permit_rules
+  def calc_rules
     can :read, Article
   end
 end
@@ -34,6 +34,13 @@ describe CanTango::Executor::Permit::Base do
   describe '#execute!' do
     describe 'should find permit based on #user_type' do
       specify { lambda{ @executor.execute! }.should_not raise_error }
+    end
+
+    describe 'should define read Article rule' do
+      specify do
+        @executor.execute!
+        @executor.permit.rules.should_not be_empty
+      end
     end
   end
 end
