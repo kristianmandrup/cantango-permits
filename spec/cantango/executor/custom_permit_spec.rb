@@ -45,12 +45,34 @@ class MembershipPermit < CanTango::Permit::Base
     super
   end
 
-  def valid_for? subject
+  def valid?
+    return false unless subject.respond_to? :memberships
     subject.memberships.include? membership_name
   end
 end
 
+class CanTango::Ability::Base
+  def subject
+    candidate
+  end
+
+  def user
+    subject
+  end
+end
+
 class AdminMembershipPermit < MembershipPermit
+  protected
+
+  def calc_rules
+    can :read, Article
+  end
+end
+
+class Admin
+  def memberships
+    [:admin]
+  end
 end
 
 describe 'Custom Permit registration - Membership' do
@@ -61,5 +83,21 @@ describe 'Custom Permit registration - Membership' do
   it 'should register :membership as available permit type' do
     CanTango.config.permits.types.available.should include(:membership)
   end
+  
+  before do
+    @user     = Admin.new 'kris', 'kris@mail.ru'
+    @ability  = CanTango::Ability::Base.new @user
+    @permit   = AdminMembershipPermit.new @ability
+    @executor = CanTango::Executor::Permit::Base.new @permit
+  end
+
+  describe '#execute!' do
+    describe 'should define read Article rule' do
+      specify do
+        @executor.execute!
+        @executor.permit.rules.should_not be_empty
+      end
+    end
+  end  
 end
 
