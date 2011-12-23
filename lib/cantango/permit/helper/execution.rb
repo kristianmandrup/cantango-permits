@@ -8,7 +8,7 @@ module CanTango::Permit
       def execute
         return if disabled?
         debug "Execute Permit: #{self}"
-        
+                
         # check current mode and execute accordingly!?
         calc_rules
         mode_rules

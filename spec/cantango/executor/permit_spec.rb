@@ -1,54 +1,53 @@
 require 'spec_helper'
 require 'fixtures/models'
 
-def config_folder
-  File.dirname(__FILE__)+ "/../fixtures/config/"
-end
-
-class AdminRolePermit < CanTango::Permit::Role
+class AdminPermit < CanTango::Permit::UserType
   def initialize ability
     super
   end
 
   protected
 
-  def calc_rules
-    can :read, Article
-  end
-
-  module Cached
-    def calc_rules
-      can :edit, Article
-      can :delete, Article
-    end
+  def no_cache_rules
+    can :edit, Article
+    can :delete, Article
   end
 end
 
-describe CanTango::Permits::Executor do
+class CanTango::Ability::Base
+  def subject
+    candidate
+  end
+
+  def user
+    subject
+  end
+end
+
+describe CanTango::Executor::Permit::Base do
   context 'non-cached only' do
     before do
-      CanTango.configure.ability.mode = :no_cache
+      CanTango.configure.ability.modes.execution.register :no_cache
 
-      @user = User.new 'admin', 'admin@mail.ru', :role => 'admin'
-      @abil = CanTango::AbilityExecutor.new @user
+      @admin    = Admin.new 'kris', 'kris@mail.ru'
+      @ability  = CanTango::Ability::Base.new @admin
+      @permit   = AdminPermit.new @ability
+      @executor = CanTango::Executor::Permit::Base.new @permit
     end
 
-    subject { CanTango::AbilityExecutor.new @user }
+    subject { @executor }
 
     describe 'config no_cache' do
-      specify { CanTango.configure.ability.modes.should == [:no_cache] }
+      specify { CanTango.configure.ability.modes.execution.registered.should == [:no_cache] }
     end
-
-    describe 'engines_on?' do
-      specify { subject.engines_on?.should be_true }
-    end
-
-    its(:cached_rules)      { should be_empty }
-    its(:non_cached_rules)  { should_not be_empty }
 
     describe 'rules contain only non-cached rules' do
-      specify { subject.rules.size.should == @abil.non_cached_rules.size }
-      specify { subject.rules.size.should == 2 }
+      before do
+        subject.execute!
+      end
+      it 'should have 2 rules' do
+        subject.rules.size.should == @ability.rules.size
+      end
     end
   end
 end

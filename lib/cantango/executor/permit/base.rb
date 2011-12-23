@@ -5,7 +5,7 @@ module CanTango
         # execute the permit
         def execute!
           not_valid_permit and return unless permit.valid?
-          permit.execute!
+          super
         end
 
         protected

@@ -7,6 +7,9 @@ module CanTango
 
       attr_accessor :ability, :options
 
+      # delegate to ability
+      delegate :options, :subject, :user, :account, :to => :ability
+
       # creates the factory for the ability
       # note that the ability contains the roles and role groups of the user (or account)
       # @param [Permits::Ability] the ability
@@ -85,13 +88,6 @@ module CanTango
 
       def htype
         permit_type.to_s.humanize
-      end
-
-      # delegate to ability
-      [:options, :subject, :user, :user_account].each do |name|
-        define_method name do
-          ability.send(name)
-        end
       end
     end
   end
