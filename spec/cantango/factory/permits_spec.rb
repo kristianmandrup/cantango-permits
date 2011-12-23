@@ -33,7 +33,7 @@ describe CanTango::Factory::Permits do
 
   describe '#create' do
     it 'should build a list of permits' do
-      subject.create.should_not be_empty
+      subject.create.first.should be_a AdminPermit
     end
   end
 end

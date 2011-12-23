@@ -26,7 +26,7 @@ module CanTango
       end
 
       def permit_type
-        self.class.type
+        self.class.permit_type
       end
 
       def disable!
@@ -34,7 +34,7 @@ module CanTango
       end
 
       def disabled?
-        @disabled || CanTango.config.permits.disabled?(name)
+        @disabled || CanTango.config.permits.disabled?(permit_type, name)
       end
 
       def valid?

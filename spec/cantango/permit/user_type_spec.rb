@@ -23,6 +23,16 @@ describe CanTango::Permit::UserType do
 
   subject { @permit }
 
+  describe 'registration' do
+    describe 'permit types' do
+      specify { CanTango.config.permits.types.registered.should include(:user_type) }
+    end
+
+    describe 'permits of type' do    
+      specify { CanTango.config.permits.registered_for(:user_type, :admin).should == AdminPermit }
+    end
+  end
+
   describe 'attributes' do
     it "should be the permit for the :admin user" do
       subject.permit_name.should == :admin
@@ -41,24 +51,28 @@ describe CanTango::Permit::UserType do
     end
   end
 
-  describe 'disable Admin Permit' do
-    before do
-      CanTango.config.permits.disable_for :user_type, [:admin, :editor]
+  context 'config permits' do
+    let(:permits) { CanTango.config.permits }
+
+    describe 'disable Admin Permit' do
+      before do
+        permits.disable_for :user_type, [:admin, :editor]
+      end
+
+      it "should have an ability" do
+        subject.disabled?.should be_true
+      end
     end
 
-    it "should have an ability" do
-      subject.disabled?.should be_true
-    end
-  end
+    describe 'enable all Permits' do
+      before do
+        permits.enable_all!
+      end
 
-  describe 'enable all Permits' do
-    before do
-      CanTango.config.permits.enable_all!
-    end
-
-    it "should be disabled" do
-      CanTango.config.permits.disabled.should be_empty
-      subject.disabled?.should be_false
+      it "should be disabled" do
+        permits.disabled.should be_empty
+        subject.disabled?.should be_false
+      end
     end
   end
 end

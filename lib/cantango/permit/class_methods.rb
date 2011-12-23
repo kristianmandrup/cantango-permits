@@ -6,7 +6,7 @@ module CanTango
           subclass.extend CanTango::Permit::ClassMethods
           register(subclass)
         else
-          CanTango.config.permits.types.register subclass.name.underscore
+          CanTango.config.permits.types.register permit_name(subclass)
         end        
       end
 

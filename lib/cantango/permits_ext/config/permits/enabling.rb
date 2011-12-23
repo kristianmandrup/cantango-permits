@@ -8,7 +8,6 @@ class CanTango::Config
 
       def enable_all!
         @disabled = {}
-        # types.enable_all!
       end
     end
   end

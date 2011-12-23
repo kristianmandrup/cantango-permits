@@ -15,19 +15,19 @@ describe CanTango::Registry::Permit do
     
     # puts CanTango.config.permits.types.inspect
     
-    permit_registry = @reg.permit_registry_for(:user_type)
+    permit_registry = @reg.registry_for(:user_type)
     permit_registry[:admin] = AdminUserPermit    
   end
   subject { @reg }
   
-  describe 'permit_registry_for type' do
+  describe 'registry_for type' do
     context 'existing type' do
-      specify { subject.permit_registry_for(:user_type).should be_a CanTango::Registry::Hash }
+      specify { subject.registry_for(:user_type).should be_a CanTango::Registry::Hash }
     end
 
     context 'non-existing type' do
       specify do
-        lambda { subject.permit_registry_for(:unknown) }.should raise_error
+        lambda { subject.registry_for(:unknown) }.should raise_error
       end
     end
   end
