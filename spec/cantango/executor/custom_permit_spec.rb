@@ -1,9 +1,5 @@
-# registering a custom permit
-#
-require 'rspec'
-require 'cantango'
+require 'spec_helper'
 require 'fixtures/models'
-require 'cantango/rspec'
 
 class MembershipPermit < CanTango::Permit::Base
   class Builder < CanTango::Builder::Permit::Base
@@ -54,17 +50,16 @@ class MembershipPermit < CanTango::Permit::Base
   end
 end
 
+class AdminMembershipPermit < MembershipPermit
+end
+
 describe 'Custom Permit registration - Membership' do
   it 'should register :membership as available permit' do
-    CanTango.config.permits.available_permits[:membership].should == MembershipPermit
+    CanTango.config.permits.registered_for(:membership, :admin).should == AdminMembershipPermit
   end
 
   it 'should register :membership as available permit type' do
-    CanTango.config.permits.available_types.should include(:membership)
-  end
-
-  it 'should register MmembershipPermit as available permit class' do
-    CanTango.config.permits.available_classes.should include(MembershipPermit)
+    CanTango.config.permits.types.available.should include(:membership)
   end
 end
 
