@@ -3,21 +3,25 @@ module CanTango
     class UserType < Base
       # class NoAvailableRoles < StandardError; end
 
+      def initialize ability, options = {}
+        super
+      end
+
       # builds a list of Permits for each role of the current ability user (or account)
       # @return [Array<Permit::Base>] the role permits built for this ability
       def build
-        puts debug_msg if CanTango.debug?
-        [permit].compact
+        debug debug_msg
+        permits
       end
 
       protected
 
       def debug_msg
-        permit ? "Building UserPermit for #{user}, permit: #{permit}" : "Not building any UserPermit"
+        permits ? "Building UserPermit permits" : not_building
       end
 
-      def permit
-        @permit ||= create_permit permit_type
+      def permits
+        @permit ||= create_permits
       end
     end
   end

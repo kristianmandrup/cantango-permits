@@ -32,7 +32,7 @@ module CanTango
       # has a role or a role group
       # also execute any permit marked as special
       def permits_of type
-        @permits ||= permit_factory(type).build!
+        @permits ||= permit_factory(type).create
       end
 
       def permit_class_names
@@ -68,7 +68,7 @@ module CanTango
       end
     
       def available_permits_for type
-        CanTango.config.permits.available_permits[type]
+        CanTango.config.permits.types.available
       end
     end
   end

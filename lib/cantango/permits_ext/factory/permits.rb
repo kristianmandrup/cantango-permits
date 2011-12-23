@@ -18,13 +18,9 @@ module CanTango
       end
 
       def permits
-        permits_builder.new ability, permit_finder
+        permits_builder.new ability
       end
       
-      def permit_finder
-        CanTango::Finder::Permit::Base.new name, options
-      end
-
       def permits_builder
         permits_builder_class.constantize
       end
@@ -33,6 +29,8 @@ module CanTango
         return "CanTango::Builder::Permit::Special" if type == :special
         "CanTango::Builder::Permit::#{type.to_s.camelize}"
       end
+
+      protected
 
       def enabled_permit_types
         CanTango.config.permits.types.enabled
