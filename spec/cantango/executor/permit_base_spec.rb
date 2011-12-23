@@ -25,7 +25,7 @@ end
 
 describe CanTango::Executor::Permit::Base do
   before do
-    @user     = SimpleUser.new
+    @user     = Admin.new 'kris', 'kris@mail.ru'
     @ability  = CanTango::Ability::Base.new @user
     @permit   = AdminPermit.new @ability
     @executor = CanTango::Executor::Permit::Base.new @permit

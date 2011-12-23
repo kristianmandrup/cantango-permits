@@ -16,7 +16,7 @@ class SystemPermit < CanTango::Permit::Special
   end
 end
 
-describe CanTango::PermitEngine::Executor::System do
+describe CanTango::Executor::Permit::System do
   before do
     @user = User.new 'kris', 'kris@mail.ru'
     @ua = UserAccount.new @user
@@ -25,15 +25,11 @@ describe CanTango::PermitEngine::Executor::System do
     @ability = CanTango::Ability::Base.new @user
 
     @permit = SystemRolePermit.new @ability
-    @executor = CanTango::PermitEngine::Executor::System.new @permit
+    @executor = CanTango::Executor::Permit::System.new @permit
   end
 
   describe '#execute!' do
     describe 'should execute permit' do
-      # specify { ability.should be_allowed_to(:read, Article) }
-      # specify { ability.should be_allowed_to(:write, Post) }
-      # specify { ability.should be_allowed_to(:create, Comment) }
-
       specify { lambda{ executor.execute! }.should_not raise_error }
     end
   end

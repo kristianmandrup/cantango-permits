@@ -6,7 +6,15 @@ require 'fixtures/models'
 require 'cantango/rspec'
 
 class MembershipPermit < CanTango::Permit::Base
-  class Builder
+  class Builder < CanTango::Builder::Permit::Base
+    def build
+      return [] if !memberships
+      super
+    end
+    
+    def memberships
+      ability.subject.memberships
+    end
   end
 
   def self.inherited(base_clazz)
