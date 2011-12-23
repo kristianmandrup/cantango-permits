@@ -1,10 +1,5 @@
 require 'spec_helper'
-
-require 'cantango/rspec/matchers'
 require 'fixtures/models'
-require 'cantango/rspec/matchers'
-
-CanTango.config.permits.set :on
 
 class AdminPermit < CanTango::Permit::UserType
   def initialize ability
@@ -18,12 +13,22 @@ class AdminPermit < CanTango::Permit::UserType
   end
 end
 
-describe CanTango::PermitEngine::Executor::Base do
+class CanTango::Ability::Base
+  def subject
+    candidate
+  end
+
+  def user
+    subject
+  end
+end
+
+describe CanTango::Executor::Permit::Base do
   before do
-    @user = SimpleUser.new
-    @ability = CanTango::Ability::Base.new @user
-    @permit = AdminPermit.new @ability
-    @executor = CanTango::PermitEngine::Executor::Base.new @permit
+    @user     = SimpleUser.new
+    @ability  = CanTango::Ability::Base.new @user
+    @permit   = AdminPermit.new @ability
+    @executor = CanTango::Executor::Permit::Base.new @permit
   end
 
   describe '#execute!' do

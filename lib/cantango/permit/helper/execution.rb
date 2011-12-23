@@ -8,8 +8,11 @@ module CanTango::Permit
       def execute
         return if disabled?
         debug "Execute Permit: #{self}"
-        executor.execute!
+        
+        # check current mode and execute accordingly!?
+        calc_rules
       end
+      alias_method :execute!, :execute
 
       # return the executor used to execute the permit
       def executor

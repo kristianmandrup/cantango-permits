@@ -15,6 +15,8 @@ module CanTango
         end
 
         protected
+        
+        delegate :subject, :to => :permit
 
         def valid_for? subject
           permit.valid_for?(subject) if permit
