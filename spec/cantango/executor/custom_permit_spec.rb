@@ -21,7 +21,8 @@ class MembershipPermit < CanTango::Permit::Base
     :membership
   end
 
-  def self.membership_name clazz
+  def self.membership_name clazz = nil
+    clazz ||= self
     clazz.name.demodulize.gsub(/(.*)(MembershipPermit)/, '\1').underscore.to_sym
   end
 
@@ -30,19 +31,7 @@ class MembershipPermit < CanTango::Permit::Base
   end
 
   def permit_name
-    self.class.membership_name self.class
-  end
-  alias_method :membership_name, :permit_name
-
-  # creates the permit
-  # @param [Permits::Ability] the ability
-  # @param [Hash] the options
-  def initialize ability
-    super
-  end
-
-  def permit?
-    super
+    self.class.membership_name
   end
 
   def valid?

@@ -10,6 +10,12 @@ module CanTango
         end        
       end
 
+      def modes *names
+        @modes ||= []
+        return @modes if names.empty?
+        @modes = names.to_symbols
+      end
+
       def type
         :abstract
       end

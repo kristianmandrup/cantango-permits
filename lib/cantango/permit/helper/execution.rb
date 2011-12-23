@@ -16,6 +16,7 @@ module CanTango::Permit
       alias_method :execute!, :execute
 
       def mode_rules
+        return unless modes.include? mode
         calc_rules_method = "#{mode}_rules"
         send(calc_rules_method) if respond_to?(calc_rules_method)
       end

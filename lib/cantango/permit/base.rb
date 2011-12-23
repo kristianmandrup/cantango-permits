@@ -31,6 +31,10 @@ module CanTango
         @mode ||= :no_cache
       end
 
+      def modes
+        self.class.modes
+      end
+
       def permit_type
         self.class.permit_type
       end

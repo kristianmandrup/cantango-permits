@@ -11,23 +11,67 @@ Permits are a way to partition Ability rules into logical units.
 
 The Permits systems comes with a few useful Permit types out-of-the-box, but you are free to develop your own to suit your needs.
 
-## Basic set of permits
+## Built-in permit types
 
-The set of Permits types included are: 
+The set of buit-in Permit types include: 
 
-* Base
-* User < Base
-* UserType < Base
-* AccountType < Base
-* Special < Base
+* User
+* UserType
+* AccountType
+* Special
+
+The [CanTango roles](http://github.com/kristianmandrup/cantango-roles) system adds Permit types for the following:
+
+* Role
+* RoleGroup
+
+## Custom permit types
 
 You can easily customize or create your own types of Permits to suit your needs!
 The Permit system will introspect the ability candidate and see which Permits apply and then build and execute these permits automatically, merging all the resulting rule sets into one. 
 
-The cantango-roles system adds Permit types for the following:
+Example of a custom permit type:
 
-* Role < Base
-* RoleGroup < Base
+```ruby
+class MembershipPermit < CanTango::Permit::Base
+  class Builder < CanTango::Builder::Permit::Base
+    def build
+      return [] if !memberships
+      super
+    end
+    
+    def memberships
+      ability.subject.memberships
+    end
+  end
+
+  def self.inherited(base_clazz)
+    register base_clazz, :name => membership_name(base_clazz)
+  end
+
+  def self.type
+    :membership
+  end
+
+  def self.membership_name clazz = nil
+    clazz ||= self
+    clazz.name.demodulize.gsub(/(.*)(MembershipPermit)/, '\1').underscore.to_sym
+  end
+
+  def self.hash_key
+    :memberships
+  end
+
+  def permit_name
+    self.class.membership_name
+  end
+
+  def valid?
+    return false unless subject.respond_to? :memberships
+    subject.memberships.include? membership_name
+  end
+end
+```
 
 ## Permit system
 
@@ -57,7 +101,7 @@ Default _:editor_ Role permit (scope less):
 
 ```ruby
 module Permit::Role
-	class Editor < CanTango::Permit::Role
+  class Editor < CanTango::Permit::Role
     def calc_rules
       can :edit, Post
     end
@@ -67,7 +111,7 @@ module Permit::Role
         can :edit, Post
       end
     end
-	end
+  end
 end
 ```
 
@@ -75,19 +119,17 @@ The _:editor_ Role permit applicable for the Admin scope. Typically the scope is
 
 ```ruby
 module Permit::Admin::Role
-	class Editor < CanTango::Permit::Role
-	  def calc_rules
-	    can :edit, Post if session[:edit_mode]
-	  end
-	
-	  modes :no_cache
+  class Editor < CanTango::Permit::Role
+	def calc_rules
+	  can :edit, Post if session[:edit_mode]
 	end
+	
+	modes :no_cache
+  end
 end
 ```
 
 Here the `#modes` macro is used to indicate that this Permit should only be executed for the `:no_cache` mode.
-
-## Custom permits
 
 Another option is fx to wrap the Permit class inside the Account class namespace like this:
 
@@ -101,15 +143,15 @@ Another option is fx to wrap the Permit class inside the Account class namespace
 
 ```ruby
 class AdminAccount < ActiveRecord::Base
-	class EditorRolePermit < CanTango::Permit::Role
-	  tango_permit  :name => :editor, :type => :role, :ns => :admin
+  class EditorRolePermit < CanTango::Permit::Role
+	tango_permit  :name => :editor, :type => :role, :ns => :admin
 
-	  def calc_rules
-	    can :edit, Post if session[:edit_mode]
-	  end
-
-	  modes :no_cache
+	def calc_rules
+	  can :edit, Post if session[:edit_mode]
 	end
+
+	modes :no_cache
+  end
 end
 ```
 
@@ -134,7 +176,7 @@ Default _:blogging_ License (scope less):
 
 ```ruby
 module License
-	class Blogging < CanTango::License
+  class Blogging < CanTango::License
     module Cache
       def calc_rules
         can [:create, :edit], Post
@@ -146,7 +188,7 @@ module License
         can :publish, Post if session[:publishing] == :on
       end
     end
-	end
+  end
 end
 ```
 
@@ -154,26 +196,22 @@ The _:editor_ License applicable for the Admin scope. Typically the scope is lin
 
 ```ruby
 module License::Admin
-	class Blogging < CanTango::License
-	  def calc_rules
-	    can :edit, Post
-	  end
-	
-	  modes :all
+  class Blogging < CanTango::License
+	def calc_rules
+	  can :edit, Post
 	end
+	
+	modes :all
+  end
 end
 ```
 
 
 ## Install 'cantango-permits' gem
 
-### In current environment (or gemset)
-
 `gem install cantango-permits`
 
-### In application
-
-Insert into Gemfile
+Or insert into Gemfile
 
 `gem 'cantango-permits'`
 
@@ -181,59 +219,11 @@ Run bundler in a terminal/console from the folder of your Gemfile (root folder o
 
 `$ bundle`
 
-### Usage
+## Usage
 
 ```ruby
 require 'cantango/permits'
 require 'cantango/permit_engine'
-```
-
-## Designing a custom Permit
-
-The Permit system has been designed to be easy to extend with your own types of Permits to suit your
-own needs. Here is an example of how to implement the Permit API.
-
-```ruby
-module CanTango::Permit
-  class MyOwn < Base
-		# creates the permit
-		# @param [CanTango::Ability] the ability
-		def initialize ability
-		  super
-		end
-
-		# how to cache it?
-		def self.hash_key
-      permit_name(self)
-		end_
-
-		# Determine if permit is valid (applies) for the subject
-		# @return (true|false)
-		def valid?
-		  false
-		end
-	end
-end
-```
-
-## Create custom permit builder
-
-```ruby
-module CanTango::Builder::Permit
-  class AccountType < Base
-    # return list of permits built?
-    def build
-      return [] if !user_account
-      [permit].compact
-    end
-
-    protected
-
-    def permit
-      create_permit(user_account.class.to_s)
-    end
-  end
-end
 ```
 
 ## Configuration
@@ -242,12 +232,12 @@ Turn on/off: Enable and disable types of permits and specific permits
 
 ```ruby
 CanTango.config.permits do |permits|
-	# which types of permits to enable
-	permits.enabled_types :user_type, :account_type
+  # which types of permits to enable
+  permits.types.enable :user_type, :account_type
 
-	permits.enable_all_for :account_type
-	permits.disable_types :user_type, :account_type
-	permits.disable_for :user_type, :admin, :editor
+  permits.enable_all_for :account_type
+  permits.types.disable :user_type, :account_type
+  permits.disable_for :user_type, :admin, :editor
 end
 ```
 
@@ -255,10 +245,10 @@ Registration: Which permits have been registered (and for which types)
 
 ```ruby
 CanTango.config.permits do |permits|
-	permits.registry_for :account_type # Registry for :account_type permits
-	permits.registered_for :account_type # names of AccountType permits
-	permits.all
-	permits.show_all
+  permits.registry_for :account_type # Registry for :account_type permits
+  permits.registered_for :account_type # names of AccountType permits
+  permits.all
+  permits.show_all
 end
 ```
 
@@ -280,14 +270,14 @@ Use the `mode=` to set the execution mode.
 ```ruby
 CanTango.config.engine(:permits) do |engine|
   # toggle engine on/off
-	engine.on!
-	engine.on?
-	engine.off!
-	engine.valid_mode_names # => [:cache, :no_cache, :both]
+  engine.on!
+  engine.on?
+  engine.off!
+  engine.modes.valid # => [:cache, :no_cache, :both]
 
   # set execution modes
-	engine.mode = :both
-	engine.modes # => [:cache, :no_cache]
+  engine.modes.register :cache, :no_cache
+  engine.modes.registered # => [:cache, :no_cache]
 end
 ```
 
@@ -301,7 +291,7 @@ to register your class directly (manually) with the the permits registry.
 module CanTango::Finder::Permit
   class Base
   	def initialize name, type
-    	@name, @type = [name, type]
+      @name, @type = [name, type]
   	end
   end
 end
@@ -314,13 +304,13 @@ Builds and returns a list of all enabled permits of a specific type
 ```ruby
 module CanTango::Factory
   class Permits
-    def initialize ability, type
+    def initialize ability
       @ability = ability
     end
 
     # @return Array<Permit>
     def create
-			permits.build
+	  permits.build
     end
   end
 end
@@ -348,21 +338,21 @@ end
 ```ruby
 module CanTango::Engine
   class Permits
-		def initialize ability
-		  super
-		end
+	def initialize ability
+	  super
+	end
 
-		def calc_rules
-		  # push result of each permit type execution into main ability rules array
-		  permits.each_pair do |type, permits|
-		    perm_rules = executor(type, permits).execute!
-		    rules << perm_rules if !perm_rules.blank?
-		  end
-		end
+	def calc_rules
+	  # push result of each permit type execution into main ability rules array
+	  permits.each_pair do |type, permits|
+	    perm_rules = executor(type, permits).execute!
+		rules << perm_rules if !perm_rules.blank?
+	  end
+    end
 
-		def executor type, permits
-		  CanTango::Ability::Executor::PermitType.new self, type, permits(type)
-		end
+	def executor type, permits
+	  CanTango::Ability::Executor::PermitType.new self, type, permits(type)
+	end
 		
     def permits type
       @permits ||= permits_factory(type).build!
@@ -378,11 +368,8 @@ end
 ## Design goals
 
 This CanTango extension should have the least amount of dependencies on other extensions.
-For this reason, all dependencies to _cantango-config_ should be removed. 
-In _cantango-config_ the relevant modules/classes should be monkey-patched in order to
-use the configuration.
 
-## Contributing to Cantango Api
+## Contributing to Cantango Permits
  
 * Check out the latest master to make sure the feature hasn't been implemented or the bug hasn't been fixed yet
 * Check out the issue tracker to make sure someone already hasn't requested it and/or contributed it
