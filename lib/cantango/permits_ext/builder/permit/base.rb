@@ -23,9 +23,11 @@ module CanTango
         self.class.permit_name
       end
 
-      # should be implemented by builder subclass!
+      # builds a list of Permits for each role of the current ability user (or account)
+      # @return [Array<Permit::Base>] the role permits built for this ability
       def build
-        raise NotImplementedError
+        debug debug_msg
+        permits
       end
 
       protected
@@ -38,12 +40,26 @@ module CanTango
         begin
           names.inject([]) do |res, name|
             permit = permit(name)
-            res << permit unless permit.disabled?
+            res << permit if valid?(permit)
+            res
           end
         rescue RuntimeError => e
           debug "Error instantiating Permit instance for #{name}, cause: #{e}"
           nil
         end
+      end
+
+      def valid? permit
+        return false if permit.disabled?
+        permit.valid? 
+      end
+
+      def debug_msg
+        permits ? msg(:building) : msg(:not_building)
+      end
+
+      def permits
+        @permit ||= create_permits
       end
 
       def permit name
@@ -63,8 +79,12 @@ module CanTango
         finder(name).find_permit
       end
 
-      def not_building
-        "Not building any #{permit_type.to_s.humanize} permit"
+      def msg type
+        type == :building ? "Building #{htype} permits" : "Not building any #{htype} permits"
+      end
+
+      def htype
+        permit_type.to_s.humanize
       end
 
       # delegate to ability

@@ -9,12 +9,8 @@ class MembershipPermit < CanTango::Permit::Base
   class Builder
   end
 
-  class Finder
-
-  end
-
   def self.inherited(base_clazz)
-    CanTango.config.permits.register_permit_class membership_name(base_clazz), base_clazz, type, account_name(base_clazz)
+    register base_clazz, :name => membership_name(base_clazz)
   end
 
   def self.type

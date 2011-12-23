@@ -1,7 +1,7 @@
 require 'spec_helper'
 require 'fixtures/models'
 
-class SystemRolePermit < CanTango::Permit::Role
+class SystemPermit < CanTango::Permit::Special
   def initialize ability
     super
   end
@@ -18,8 +18,8 @@ end
 
 describe CanTango::PermitEngine::Executor::System do
   before do
-    @user = User.new 'kris', 'kris@mail.ru', :roles => [:editor]
-    @ua = UserAccount.new user, :roles => [:admin, :user], :role_groups => []
+    @user = User.new 'kris', 'kris@mail.ru'
+    @ua = UserAccount.new @user
     @user.account = @ua
 
     @ability = CanTango::Ability::Base.new @user
@@ -28,15 +28,7 @@ describe CanTango::PermitEngine::Executor::System do
     @executor = CanTango::PermitEngine::Executor::System.new @permit
   end
 
-  before(:each) do
-    CanTango.config.permits.set :on
-  end
-
   describe '#execute!' do
-    before:each do
-      CanTango.config.permits.set :on
-    end
-
     describe 'should execute permit' do
       # specify { ability.should be_allowed_to(:read, Article) }
       # specify { ability.should be_allowed_to(:write, Post) }

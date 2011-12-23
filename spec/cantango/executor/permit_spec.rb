@@ -1,22 +1,8 @@
-require 'rspec'
-require 'cantango'
-# require 'simple_roles'
+require 'spec_helper'
 require 'fixtures/models'
-require 'cantango/rspec'
 
 def config_folder
   File.dirname(__FILE__)+ "/../fixtures/config/"
-end
-
-CanTango.configure do |config|
-  config.clear!
-  config.permits.enabled_types = [:role]
-end
-CanTango.debug!
-
-class User
-  tango_user
-  include_and_extend SimpleRoles
 end
 
 class AdminRolePermit < CanTango::Permit::Role

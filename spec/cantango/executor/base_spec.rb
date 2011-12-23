@@ -4,7 +4,9 @@ require 'cantango/rspec/matchers'
 require 'fixtures/models'
 require 'cantango/rspec/matchers'
 
-class CustomerRolePermit < CanTango::Permit::Role
+CanTango.config.permits.set :on
+
+class AdminPermit < CanTango::Permit::UserType
   def initialize ability
     super
   end
@@ -20,27 +22,12 @@ describe CanTango::PermitEngine::Executor::Base do
   before do
     @user = SimpleUser.new
     @ability = CanTango::Ability::Base.new @user
-    @permit = CustomerRolePermit.new @ability
+    @permit = AdminPermit.new @ability
     @executor = CanTango::PermitEngine::Executor::Base.new @permit
   end
 
-  before(:each) do
-    CanTango.config.permits.set :on
-  end
-
   describe '#execute!' do
-    before:each do
-      CanTango.config.permits.set :on
-    end
-
-    describe 'should find permit based on #roles_list' do
-      specify { lambda{ @executor.execute! }.should_not raise_error }
-    end
-
-    describe 'should search permit based on #role_groups_list' do
-      before do
-        @user.roles_list.clear
-      end
+    describe 'should find permit based on #user_type' do
       specify { lambda{ @executor.execute! }.should_not raise_error }
     end
   end
