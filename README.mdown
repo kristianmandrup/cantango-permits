@@ -29,47 +29,23 @@ The [CanTango roles](http://github.com/kristianmandrup/cantango-roles) system ad
 
 You can easily customize or create your own types of Permits to suit your needs!
 The Permit system will introspect the ability candidate and see which Permits apply and then build and execute these permits automatically, merging all the resulting rule sets into one. 
+The simplest way to create a custom permit types is to subclass the Attribute permit as shown below.
+To create more complex permit types that go beyond mapping to an attribute, please look at the code of any of the built-in permits (such as Attribute Permit) to gain an insight for how to do this.
 
 Example of a custom permit type:
 
 ```ruby
-class MembershipPermit < CanTango::Permit::Base
-  class Builder < CanTango::Builder::Permit::Base
-    def build
-      return [] if !memberships
-      super
-    end
-    
-    def memberships
-      ability.subject.memberships
-    end
+class MembershipPermit < CanTango::Permit::Attribute
+  class Builder < CanTango::Permit::Attribute::Builder
+    attribute :membership
   end
 
   def self.inherited(base_clazz)
-    register base_clazz, :name => membership_name(base_clazz)
+    register base_clazz, :name => attribute_name(base_clazz)
   end
 
-  def self.type
-    :membership
-  end
-
-  def self.membership_name clazz = nil
-    clazz ||= self
-    clazz.name.demodulize.gsub(/(.*)(MembershipPermit)/, '\1').underscore.to_sym
-  end
-
-  def self.hash_key
-    :memberships
-  end
-
-  def permit_name
-    self.class.membership_name
-  end
-
-  def valid?
-    return false unless subject.respond_to? :memberships
-    subject.memberships.include? membership_name
-  end
+  # optional override of inference of attribute via class name
+  attribute :membership
 end
 ```
 

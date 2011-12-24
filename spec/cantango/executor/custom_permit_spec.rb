@@ -1,41 +1,16 @@
 require 'spec_helper'
 require 'fixtures/models'
 
-class MembershipPermit < CanTango::Permit::Base
-  class Builder < CanTango::Builder::Permit::Base
-    def build
-      return [] if !memberships
-      super
-    end
-    
-    def memberships
-      ability.subject.memberships
-    end
+class MembershipPermit < CanTango::Permit::Attribute
+  class Builder < CanTango::Permit::Attribute::Builder
+    attribute :membership
   end
 
-  module ClassMethods
-    def inherited(base_clazz)
-      register base_clazz, :name => membership_name(base_clazz)
-    end
-
-    def membership_name clazz = nil
-      clazz ||= self
-      clazz.name.demodulize.gsub(/(.*)(MembershipPermit)/, '\1').underscore.to_sym
-    end
-
-    def hash_key
-      permit_name(self)
-    end
-  end
-  
-  def permit_name
-    self.class.membership_name
+  def self.inherited(base_clazz)
+    register base_clazz, :name => attribute_name(base_clazz)
   end
 
-  def valid?
-    return false unless subject.respond_to? :memberships
-    subject.memberships.include? membership_name
-  end
+  # attribute :membership
 end
 
 class CanTango::Ability::Base
