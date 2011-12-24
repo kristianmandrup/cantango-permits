@@ -14,7 +14,7 @@ require 'cantango/permits_ext'
 
 module CanTango
   module Permit
-    sweetload :Base
+    sweetload :Base, :Attribute
     sweetload :UserType, :AccountType, :Special, :User
   end
 end
