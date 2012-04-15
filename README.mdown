@@ -80,12 +80,12 @@ Default _:editor_ Role permit (scope less):
 ```ruby
 module Permit::Role
   class Editor < CanTango::Permit::Role
-    def calc_rules
+    def permissions
       can :edit, Post
     end
 
     module Cache
-      def calc_rules
+      def permissions
         can :edit, Post
       end
     end
@@ -103,7 +103,7 @@ Typically the scope is linked to the account (but doesn't have to be).
 ```ruby
 module Permit::Admin::Role
   class Editor < CanTango::Permit::Role
-	  def calc_rules
+	  def permissions
 	    can :edit, Post if session[:edit_mode]
 	  end
 	end

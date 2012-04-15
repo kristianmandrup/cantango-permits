@@ -33,6 +33,7 @@ module CanTango::Permit
 
       def calc_rules
       end
+      alias_method :permissions, :calc_rules
     end
   end
 end

@@ -1,7 +1,7 @@
 module Cantango
   module Generators
     class LicensesGenerator < Rails::Generators::Base
-      desc "Creates Licenses for use with CanCan Permits"
+      desc "Creates Licenses for use with CanTango Permits"
 
       argument     :licenses,           :type => :array,      :desc => "Licenses"
 

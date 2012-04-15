@@ -5,19 +5,19 @@ class <%= account.to_s.camelize %>AccountPermit < CanTango::AccountPermit
 
   protected
 
-  def permit_rules
+  def permissions
     # insert your can, cannot and any other rule statements here
     <%= permit_logic.strip %>
     <%= license_logic %>
   end
 
   module Cached
-    def permit_rules
+    def permissions
     end
   end
 
   module NonCached
-    def permit_rules
+    def permissions
     end
   end
 end
