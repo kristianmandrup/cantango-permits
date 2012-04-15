@@ -120,100 +120,13 @@ Another option is fx to wrap the Permit class inside the Account class namespace
     - admin_account.rb
 ```
 
-## Permit execution modes
-
-Permits can be configured to be executed in one or more execution modes. The built in modes are:
-
-* cache
-* no_cache
-
-The `#modes` macro is used to indicate which modes the Permit is executed for. By default, a Permit will be executed for all execution modes.
-
-The following Editor Role Permit will only be executed for the `:no_cache` mode.
-
-```ruby
-module Permit::Admin::Role
-  class Editor < CanTango::Permit::Role
-    def calc_rules
-      can :edit, Post if session[:edit_mode]
-    end
-
-    modes :no_cache
-  end
-end
-```
-
-## Custom permit definition
-
-The following code sets up a Permit with a specific namespace (scope) `:admin`
-
-```ruby
-class AdminAccount < ActiveRecord::Base
-  class EditorRolePermit < CanTango::Permit::Role
-	tango_permit  :name => :editor, :type => :role, :ns => :admin
-
-	def calc_rules
-	  can :edit, Post if session[:edit_mode]
-	end
-
-	modes :no_cache
-  end
-end
-```
-
-Here the `tango_permit` macro is used to explicitly configure the Permit with the CanTango Permits system (registry).
+Also see [Execution modes](https://github.com/kristianmandrup/cantango-permits/wiki/Execution-modes)
 
 ### Licenses
 
 Licenses can be used as Permit mixins, ie. Permit rules that are reused in multiple types of Permits. 
 
-Licenses have their own namespace folder `license` inside the `app/permits` folder. The default (scope less) licenses are placed directly in the `license` folder. 
-
-```text
-- /app
-  - /permits
-    - /license
-      - blogging.rb
-      - /admin
-        - blogging.rb
-```
-
-Default _:blogging_ License (scope less):
-
-```ruby
-module License
-  class Blogging < CanTango::License
-    module Cache
-      def calc_rules
-        can [:create, :edit], Post
-      end
-    end
-
-    module NoCache
-      def calc_rules
-        can :publish, Post if session[:publishing] == :on
-      end
-    end
-  end
-end
-```
-
-In the Blogging example, the module `NoCache` is used to determine the rules that apply for the `:no_cache` execution mode.
-
-The _:editor_ License applicable for the Admin scope. Typically the scope is linked to the account (but doesn't have to be).
-
-```ruby
-module License::Admin
-  class Blogging < CanTango::License
-	  def calc_rules
-	    can :edit, Post
-	  end
-	
-	  modes :all
-  end
-end
-```
-
+See more on [Licenses](https://github.com/kristianmandrup/cantango-permits/wiki/Licenses)
 
 ## Usage
 
@@ -242,7 +155,11 @@ CanTango.config.permits do |permits|
 end
 ```
 
+See more on [Configuration](https://github.com/kristianmandrup/cantango-permits/wiki/Permits-configuration)
+
 ## Debugging permits and abilities
+
+You can use the CanTango class methods for debugging permits runtime anywhere in your Rails app.
 
 ```ruby
 puts CanTango.permits_allowed
@@ -252,132 +169,7 @@ puts CanTango.debug_permits_registry
 puts CanTango.debug_ability current_user, :edit, Project.first
 ```
 
-## Debug configuration
-
-Registration: Which permits have been registered (and for which types)
-
-```ruby
-CanTango.config.permits do |permits|
-  puts permits.registry_for :account_type # Registry for :account_type permits
-  puts permits.registered_for :account_type # names of AccountType permits
-  puts permits.all
-
-  puts permits.show_all
-end
-```
-
-Debug: Which permits allowed/denied specific actions for specific candidates to be taken
-
-```ruby
-CanTango.config.permits do |permits|
-	puts permits.allowed candidate, actions, subjects, *extra_args
-	puts permits.denied candidate, actions, subjects, *extra_args
-end
-```
-
-### Permits Engine
-
-The Permits engine can be configured as any other CanTango Engine:
-Use the `on!` and `off!` methods to enable to disable use of the engine.
-Use the `mode=` to set the execution mode.
-
-```ruby
-CanTango.config.engine(:permits) do |engine|
-  # toggle engine on/off
-  engine.on!
-  engine.on?
-  engine.off!
-  engine.modes.valid # => [:cache, :no_cache, :both]
-
-  # set execution modes
-  engine.modes.register :cache, :no_cache
-  engine.modes.registered # => [:cache, :no_cache]
-end
-```
-
-## Permits finder
-
-Will look up a particular registered Permit in the Permit registry (see Configuration).
-Permits are registered automatically by an inheritance hook. If you want to override this, you need
-to register your class directly (manually) with the the permits registry.
-
-```ruby
-module CanTango::Finder::Permit
-  class Base
-  	def initialize name, type
-      @name, @type = [name, type]
-  	end
-  end
-end
-```
-
-## Permits Factory
-
-Builds and returns a list of all enabled permits of a specific type
-
-```ruby
-module CanTango::Factory
-  class Permits
-    def initialize ability
-      @ability = ability
-    end
-
-    # @return Array<Permit>
-    def create
-	    permits.build
-    end
-  end
-end
-```
-
-## Categories
-
-Categories are loaded from a Yaml file (by default `categories.yaml`). The loader `CanTango::Loader::Categories` is based on the `CanTango::Loader::Yaml` from _cantango-core_. 
-The parser `CanTango::Parser::Categories` parses the yaml into a hash referencing constants (models).
-
-## Macros
-
-The macro `#tango_permit` can be used to attempt to register a Permit class with the Permits registry based on naming conventions and options passed in.
-
-```ruby
-class MySuperPermit < CanTango::Permit::Base
-  tango_permit :name => :super, :type => :user_type, :account => :admin
-
-  # the internals
-end
-```
-
-## Engine
-
-```ruby
-module CanTango::Engine
-  class Permits
-	def initialize ability
-	  super
-	end
-
-	def calc_rules
-	  # push result of each permit type execution into main ability rules array
-	  permits.each_pair do |type, permits|
-	    perm_rules = executor(type, permits).execute!
-		rules << perm_rules if !perm_rules.blank?
-	  end
-    end
-
-	def executor type, permits
-	  CanTango::Ability::Executor::PermitType.new self, type, permits(type)
-	end
-		
-    def permits type
-      @permits ||= permits_factory(type).build!
-    end
-
-    def permits_factory type
-      @permits_factory ||= CanTango::Factory::Permits.new self, type
-    end
-  end
-end
-```
+See more about [Debugging permits](https://github.com/kristianmandrup/cantango-permits/wiki/Debugging-permits).
 
 ## Design goals
 
