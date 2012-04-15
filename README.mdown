@@ -20,7 +20,7 @@ The set of buit-in Permit types include:
 * AccountType
 * Special
 
-The [CanTango roles](http://github.com/kristianmandrup/cantango-roles) system adds Permit types for the following:
+The [cantango-roles](http://github.com/kristianmandrup/cantango-roles) extension adds Permit types for the following:
 
 * Role
 * RoleGroup
@@ -54,6 +54,8 @@ end
 The permit system iterates over all the registered types of permits and executes all registered permits of each type. The result is a set of Ability rules that work with the [CanCan](http://github.com/ryanb/cancan) Ability mechanism.
 
 ## Defining Permits and Licenses in your app
+
+Note: The following example uses the [cantango-roles](http://github.com/kristianmandrup/cantango-roles) extension containing `Role` and `RoleGroup` permits.
 
 The `app/permits` folder will be added to Rails autoloading.
 The directory layout should be the following:
