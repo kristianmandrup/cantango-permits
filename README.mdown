@@ -18,7 +18,7 @@ The set of buit-in Permit types include:
 * User
 * UserType
 * AccountType
-* Special
+* (Special)
 
 The [cantango-roles](http://github.com/kristianmandrup/cantango-roles) extension adds Permit types for the following:
 
@@ -93,21 +93,22 @@ module Permit::Role
 end
 ```
 
-The _:editor_ Role permit applicable for the Admin scope. Typically the scope is linked to the account (but doesn't have to be).
+## Permit scopes
+
+Permits can also be scoped, fx for the type of Account.
+
+In the following example, the _:editor_ Role permit will only be executed for the _Admin_ scope. 
+Typically the scope is linked to the account (but doesn't have to be).
 
 ```ruby
 module Permit::Admin::Role
   class Editor < CanTango::Permit::Role
-	def calc_rules
-	  can :edit, Post if session[:edit_mode]
+	  def calc_rules
+	    can :edit, Post if session[:edit_mode]
+	  end
 	end
-	
-	modes :no_cache
-  end
 end
 ```
-
-Here the `#modes` macro is used to indicate that this Permit should only be executed for the `:no_cache` mode.
 
 Another option is fx to wrap the Permit class inside the Account class namespace like this:
 
@@ -118,6 +119,33 @@ Another option is fx to wrap the Permit class inside the Account class namespace
       - editor_role_permit.rb
     - admin_account.rb
 ```
+
+## Permit execution modes
+
+Permits can be configured to be executed in one or more execution modes. The built in modes are:
+
+* cache
+* no_cache
+
+The `#modes` macro is used to indicate which modes the Permit is executed for. By default, a Permit will be executed for all execution modes.
+
+The following Editor Role Permit will only be executed for the `:no_cache` mode.
+
+```ruby
+module Permit::Admin::Role
+  class Editor < CanTango::Permit::Role
+    def calc_rules
+      can :edit, Post if session[:edit_mode]
+    end
+
+    modes :no_cache
+  end
+end
+```
+
+## Custom permit definition
+
+The following code sets up a Permit with a specific namespace (scope) `:admin`
 
 ```ruby
 class AdminAccount < ActiveRecord::Base
@@ -133,11 +161,11 @@ class AdminAccount < ActiveRecord::Base
 end
 ```
 
-By default this is not supported out-of-the-box, hence you have to use the `#tango_permit` macro to tell CanTango exactly how to understand this custom class namespace layout.
-
-Note: This is NOT a recommended approach.
+Here the `tango_permit` macro is used to explicitly configure the Permit with the CanTango Permits system (registry).
 
 ### Licenses
+
+Licenses can be used as Permit mixins, ie. Permit rules that are reused in multiple types of Permits. 
 
 Licenses have their own namespace folder `license` inside the `app/permits` folder. The default (scope less) licenses are placed directly in the `license` folder. 
 
@@ -170,41 +198,36 @@ module License
 end
 ```
 
+In the Blogging example, the module `NoCache` is used to determine the rules that apply for the `:no_cache` execution mode.
+
 The _:editor_ License applicable for the Admin scope. Typically the scope is linked to the account (but doesn't have to be).
 
 ```ruby
 module License::Admin
   class Blogging < CanTango::License
-	def calc_rules
-	  can :edit, Post
-	end
+	  def calc_rules
+	    can :edit, Post
+	  end
 	
-	modes :all
+	  modes :all
   end
 end
 ```
 
 
-## Install 'cantango-permits' gem
+## Usage
 
-`gem install cantango-permits`
-
-Or insert into Gemfile
+Insert into Gemfile
 
 `gem 'cantango-permits'`
 
-Run bundler in a terminal/console from the folder of your Gemfile (root folder of app)
+Run bundler:
 
 `$ bundle`
 
-## Usage
-
-```ruby
-require 'cantango/permits'
-require 'cantango/permit_engine'
-```
-
 ## Configuration
+
+See [cantango-config](http://github.com/kristianmandrup/cantango-config)
 
 Turn on/off: Enable and disable types of permits and specific permits
 
@@ -219,14 +242,27 @@ CanTango.config.permits do |permits|
 end
 ```
 
+## Debugging permits and abilities
+
+```ruby
+puts CanTango.permits_allowed
+puts CanTango.permits_denied
+puts CanTango.debug_permits_registry
+
+puts CanTango.debug_ability current_user, :edit, Project.first
+```
+
+## Debug configuration
+
 Registration: Which permits have been registered (and for which types)
 
 ```ruby
 CanTango.config.permits do |permits|
-  permits.registry_for :account_type # Registry for :account_type permits
-  permits.registered_for :account_type # names of AccountType permits
-  permits.all
-  permits.show_all
+  puts permits.registry_for :account_type # Registry for :account_type permits
+  puts permits.registered_for :account_type # names of AccountType permits
+  puts permits.all
+
+  puts permits.show_all
 end
 ```
 
@@ -234,8 +270,8 @@ Debug: Which permits allowed/denied specific actions for specific candidates to 
 
 ```ruby
 CanTango.config.permits do |permits|
-	permits.allowed candidate, actions, subjects, *extra_args
-	permits.denied candidate, actions, subjects, *extra_args
+	puts permits.allowed candidate, actions, subjects, *extra_args
+	puts permits.denied candidate, actions, subjects, *extra_args
 end
 ```
 
@@ -288,7 +324,7 @@ module CanTango::Factory
 
     # @return Array<Permit>
     def create
-	  permits.build
+	    permits.build
     end
   end
 end
