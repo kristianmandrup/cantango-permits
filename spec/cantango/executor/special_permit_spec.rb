@@ -16,7 +16,7 @@ class SystemPermit < CanTango::Permit::Special
   end
 end
 
-describe CanTango::Executor::Permit::System do
+describe CanTango::Executor::Permit::Special do
   before do
     @user = User.new 'kris', 'kris@mail.ru'
     @ua = UserAccount.new @user
@@ -25,7 +25,7 @@ describe CanTango::Executor::Permit::System do
     @ability = CanTango::Ability::Base.new @user
 
     @permit = SystemRolePermit.new @ability
-    @executor = CanTango::Executor::Permit::System.new @permit
+    @executor = CanTango::Executor::Permit::Special.new @permit
   end
 
   describe '#execute!' do

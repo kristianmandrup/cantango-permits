@@ -1,7 +1,7 @@
 require 'spec_helper'
 require 'fixtures/models'
 
-class MyOwnPermit < CanTango::Ability::Base
+class MyLicensePermit < CanTango::Ability::Base
   include CanTango::Permit::Helper::License
 end
 
@@ -19,7 +19,7 @@ describe CanTango::Permit::Helper::License do
   before do
     @user = User.new 'kris', 'kris@mail.ru', :roles => [:editor]
   end
-  subject { MyOwnPermit.new @user }
+  subject { MyLicense.new @user }
 
   describe 'license name' do
     before do

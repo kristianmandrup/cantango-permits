@@ -1,7 +1,7 @@
 require 'spec_helper'
 require 'fixtures/models'
 
-class MyOwnPermit < CanTango::Permit::Base
+class MyPermit < CanTango::Permit::Base
   include CanTango::Permit::Helper::Host
 end
 
@@ -20,7 +20,7 @@ describe CanTango::Permit::Helper::Naming do
     @ability = CanTango::Ability::Base.new @user, :request => @localhost_req
   end
   
-  subject { MyOwnPermit.new @ability }  
+  subject { MyPermit.new @ability }  
   
   context 'localhost' do
     specify { subject.local_host?.should be_true }

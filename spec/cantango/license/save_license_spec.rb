@@ -1,7 +1,4 @@
-require 'rspec'
-require 'cantango'
-require 'rails'
-require 'require_all'
+require 'spec_helper'
 
 DIR = File.dirname(__FILE__) 
 
