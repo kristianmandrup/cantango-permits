@@ -6,7 +6,7 @@ group :default do
   gem 'sweetloader',      '>= 0.1.6'
   gem 'hashie',           '>= 1.2.0'
   
-  gem 'cantango-config',  '~> 0.2.0'
+  gem 'cantango-config',  '~> 0.2.0', :git => 'git://github.com/kristianmandrup/cantango-config.git'
   gem 'cantango-api',     '>= 0.1.3'
 end
 
@@ -18,8 +18,6 @@ end
 
 group :test do
   gem 'require_all', '~> 1.2.0'
-
-  # gem 'cantango-roles' #, :path => '/Users/kmandrup/pr/stanislaw/cantango-roles'
 
   gem 'forgery'
   gem 'sqlite3'
