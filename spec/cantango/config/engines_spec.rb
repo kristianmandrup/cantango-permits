@@ -1,8 +1,7 @@
-require 'rspec'
-require 'cantango'
+require 'spec_helper'
 require 'fixtures/models'
 
-require 'cantango/configuration/engines/engine_shared'
+require 'cantango/config/engines/engine_shared'
 
 class InvalidPerformanceTool
 end

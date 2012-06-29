@@ -1,7 +1,7 @@
 module CanTango
   class Config
     class Engines
-      class PermitEngineConfig < EngineConfig
+      class Permit # < Base
         def on?
           @state ||= :on
           @state == :on

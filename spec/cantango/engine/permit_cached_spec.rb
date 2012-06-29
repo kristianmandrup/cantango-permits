@@ -1,7 +1,6 @@
-require 'rspec'
-require 'cantango'
+require 'spec_helper'
 require 'fixtures/models'
-require 'cantango/rspec'
+# require 'cantango/rspec'
 
 def config_folder
   File.dirname(__FILE__)+ "/../fixtures/config/"

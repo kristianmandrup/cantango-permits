@@ -1,8 +1,9 @@
 require 'spec_helper'
-require 'cantango/configuration/permit_registry_ex'
 
-describe CanTango::Config::PermitRegistry do
+require 'cantango/config/permit_registry_ex'
+
+describe CanTango::Config::Permits::Registration do
   subject { CanTango::Config::Permits.instance }
 
-  it_should_behave_like CanTango::Config::PermitRegistry
+  it_should_behave_like CanTango::Config::Permits::Registration
 end

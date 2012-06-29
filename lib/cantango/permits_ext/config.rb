@@ -1,7 +1,7 @@
 module CanTango
   class Config
     sweet_scope :ns => {:CanTango => 'cantango/permits_ext'} do
-      sweetload :Permits
+      sweetload :Permits, :Engines
     end
     
     def permits

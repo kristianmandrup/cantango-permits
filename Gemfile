@@ -2,7 +2,7 @@ source :rubygems
 
 group :default do
   gem 'rails',            '>= 3.1'
-  gem 'sugar-high',       '>= 0.6.1'
+  gem 'sugar-high',       '>= 0.6'
   gem 'sweetloader',      '>= 0.1.6'
   gem 'hashie',           '>= 1.2.0'
   
