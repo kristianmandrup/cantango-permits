@@ -16,6 +16,8 @@ module CanTango
       include Disabling
       include Registration
 
+      include CanTango::Config::OnOff
+
       attr_writer :available, :default_permits
 
       def available

@@ -1,6 +1,6 @@
 GIT
   remote: git://github.com/kristianmandrup/cantango-config.git
-  revision: 9ec02caf973d83a922227747958057f84a0afab8
+  revision: ca289c841f2662e09853d75f7ca77f2c46efbe9f
   specs:
     cantango-config (0.2.1)
       cantango-core (~> 0.1.9)
@@ -12,31 +12,31 @@ GIT
 GEM
   remote: http://rubygems.org/
   specs:
-    actionmailer (3.2.6)
-      actionpack (= 3.2.6)
+    actionmailer (3.2.8)
+      actionpack (= 3.2.8)
       mail (~> 2.4.4)
-    actionpack (3.2.6)
-      activemodel (= 3.2.6)
-      activesupport (= 3.2.6)
+    actionpack (3.2.8)
+      activemodel (= 3.2.8)
+      activesupport (= 3.2.8)
       builder (~> 3.0.0)
       erubis (~> 2.7.0)
-      journey (~> 1.0.1)
+      journey (~> 1.0.4)
       rack (~> 1.4.0)
       rack-cache (~> 1.2)
       rack-test (~> 0.6.1)
       sprockets (~> 2.1.3)
-    activemodel (3.2.6)
-      activesupport (= 3.2.6)
+    activemodel (3.2.8)
+      activesupport (= 3.2.8)
       builder (~> 3.0.0)
-    activerecord (3.2.6)
-      activemodel (= 3.2.6)
-      activesupport (= 3.2.6)
+    activerecord (3.2.8)
+      activemodel (= 3.2.8)
+      activesupport (= 3.2.8)
       arel (~> 3.0.2)
       tzinfo (~> 0.3.29)
-    activeresource (3.2.6)
-      activemodel (= 3.2.6)
-      activesupport (= 3.2.6)
-    activesupport (3.2.6)
+    activeresource (3.2.8)
+      activemodel (= 3.2.8)
+      activesupport (= 3.2.8)
+    activesupport (3.2.8)
       i18n (~> 0.6)
       multi_json (~> 1.0)
     arel (3.0.2)
@@ -88,7 +88,7 @@ GEM
       rake
       rdoc
     journey (1.0.4)
-    json (1.7.3)
+    json (1.7.4)
     mail (2.4.4)
       i18n (>= 0.4.0)
       mime-types (~> 1.16)
@@ -103,14 +103,14 @@ GEM
       rack
     rack-test (0.6.1)
       rack (>= 1.0)
-    rails (3.2.6)
-      actionmailer (= 3.2.6)
-      actionpack (= 3.2.6)
-      activerecord (= 3.2.6)
-      activeresource (= 3.2.6)
-      activesupport (= 3.2.6)
+    rails (3.2.8)
+      actionmailer (= 3.2.8)
+      actionpack (= 3.2.8)
+      activerecord (= 3.2.8)
+      activeresource (= 3.2.8)
+      activesupport (= 3.2.8)
       bundler (~> 1.0)
-      railties (= 3.2.6)
+      railties (= 3.2.8)
     rails_artifactor (0.5.1)
       rails_assist (>= 0.5.1)
     rails_assist (0.5.3)
@@ -118,9 +118,9 @@ GEM
       file_mutate (~> 0.1.3)
       require_all (~> 1.2.0)
       sugar-high (>= 0.6.0)
-    railties (3.2.6)
-      actionpack (= 3.2.6)
-      activesupport (= 3.2.6)
+    railties (3.2.8)
+      actionpack (= 3.2.8)
+      activesupport (= 3.2.8)
       rack-ssl (~> 1.3.2)
       rake (>= 0.8.7)
       rdoc (~> 3.4)
@@ -153,7 +153,7 @@ GEM
       activesupport (>= 3.0.1)
       i18n
     test-unit (2.5.0)
-    thor (0.15.3)
+    thor (0.15.4)
     tilt (1.3.3)
     treetop (1.4.10)
       polyglot
@@ -166,7 +166,7 @@ PLATFORMS
 DEPENDENCIES
   bundler (>= 1.1)
   cantango-api (>= 0.1.3)
-  cantango-config (~> 0.2.0)!
+  cantango-config (~> 0.2.1)!
   cutter
   database_cleaner
   factory_girl

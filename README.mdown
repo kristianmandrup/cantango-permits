@@ -60,7 +60,7 @@ Note: The following example uses the [cantango-roles](http://github.com/kristian
 The `app/permits` folder will be added to Rails autoloading.
 The directory layout should be the following:
 
-```text
+```
 - /app
   - /permits
     - /permit
@@ -174,6 +174,37 @@ See more about [Debugging permits](https://github.com/kristianmandrup/cantango-p
 ## Design goals
 
 This CanTango extension should have the least amount of dependencies on other extensions.
+
+## Status: Aug 2012
+
+* spec/cantango/ability - ok
+* config/ - 55 examples, 36 failures, 18 pending
+* executor/ - 8 examples, 1 failure
+* finder/ - 7 examples, 0 failures
+* macros/ - 4 examples, 0 failures
+* permit/ - 46 examples, 17 failures, 1 pending
+* builder/ - 11 examples, 9 failures
+* factory/ - 4 examples, 0 failures
+* license/ - 1 example, 0 failures, 1 pending
+* loader/ - 6 examples, 0 failures, 1 pending
+* parser/ - 1 examples, 0 failures
+* registry/ - 7 examples, 1 failure
+
+Main work that needs to be done is in:
+
+* config
+* permit
+* builder
+
+One of the main bugs is:
+
+`undefined method `engine' for #<CanTango::Config:0x007fecdc6f7c70>`
+
+Which is fx the cause of most errors in `engines_spec.rb`:
+
+`29 examples, 28 failures`
+
+Please help out! Thanks :)
 
 ## Contributing to Cantango Permits
  

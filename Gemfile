@@ -6,7 +6,7 @@ group :default do
   gem 'sweetloader',      '>= 0.1.6'
   gem 'hashie',           '>= 1.2'
   
-  gem 'cantango-config',  '~> 0.2.0', :git => 'git://github.com/kristianmandrup/cantango-config.git'
+  gem 'cantango-config',  '~> 0.2.1', :git => 'git://github.com/kristianmandrup/cantango-config.git'
   gem 'cantango-api',     '>= 0.1.3'
 end
 
