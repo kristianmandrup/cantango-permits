@@ -4,16 +4,16 @@ group :default do
   gem 'rails',            '>= 3.1'
   gem 'sugar-high',       '>= 0.6'
   gem 'sweetloader',      '>= 0.1.6'
-  gem 'hashie',           '>= 1.2.0'
+  gem 'hashie',           '>= 1.2'
   
   gem 'cantango-config',  '~> 0.2.0', :git => 'git://github.com/kristianmandrup/cantango-config.git'
   gem 'cantango-api',     '>= 0.1.3'
 end
 
 group :development do
-  gem "bundler",  ">= 1.1.rc"
-  gem "jeweler",  ">= 1.6.4"
-  gem "rcov", ">= 0"
+  gem "bundler",    ">= 1.1"
+  gem "jeweler",    ">= 1.8.4"
+  gem "simplecov",  ">= 0.5"
 end
 
 group :test do
@@ -35,5 +35,5 @@ group :test do
 end
 
 group :test, :development do
-  gem "rspec",    ">= 2.6.0"
+  gem "rspec",    ">= 2.8.0"
 end

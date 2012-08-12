@@ -12,12 +12,6 @@ module CanTango
         @permits      = permits
       end
 
-      alias_method :cache_key, :permit_type
-
-      def cache
-        @cache ||= CanTango::Ability::Cache.new self, :cache_key => cache_key, :key_method_names => key_method_names
-      end
-
       def execute!
         # TODO: somehow type specific caching of result of permits!
         permits.each do |permit|
